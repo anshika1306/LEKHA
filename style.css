@@ -1739,3 +1739,198 @@ main.app-viewport {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ==========================================
+   🔄 3-4 KM HYPERLOCAL KIRANA SWAP NETWORK STYLES
+   ========================================== */
+/* 🔄 3-4 KM KIRANA SWAP & ZERO-LOSS STYLES   */
+/* ========================================== */
+.swap-hero-card {
+  border-top: 3.5px solid #ea580c;
+  background: linear-gradient(180deg, #fffaf5 0%, #ffffff 80px);
+}
+
+.pulse-radar {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ea580c;
+  border-radius: 50%;
+  box-shadow: 0 0 0 rgba(234, 88, 12, 0.4);
+  animation: radarPulse 1.8s infinite;
+}
+
+@keyframes radarPulse {
+  0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+}
+
+.swap-explainer-banner {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.swap-explainer-banner .explainer-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.swap-explainer-banner .explainer-text {
+  font-size: 11.5px;
+  color: #7c2d12;
+  line-height: 1.5;
+}
+
+.swap-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 580px) {
+  .swap-stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.swap-stat-item {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.swap-stat-item .s-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.swap-stat-item .s-val {
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 3px;
+}
+
+.swap-nav-pills {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  gap: 4px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.swap-pill-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.swap-pill-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: var(--shadow-sm);
+}
+
+.swap-item-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.swap-item-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.swap-item-card.is-urgent {
+  border-left: 4.5px solid #ea580c;
+  background: linear-gradient(90deg, #fffaf5 0%, #ffffff 40%);
+}
+
+.distance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.match-callout {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 10px 0;
+  font-size: 11.5px;
+  color: #166534;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.swap-modal-price-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.shop-radio-option {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.shop-radio-option:hover,
+.shop-radio-option.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.swap-quick-alert {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.swap-quick-alert:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
+}
+
+

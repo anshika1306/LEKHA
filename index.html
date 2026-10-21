@@ -58,6 +58,11 @@
           <span class="badge-count" id="navKhataPendingCount">4</span>
         </button>
         <button type="button" class="nav-tab-item" data-page="wholesaler" onclick="window.lekhaApp.navigateTo('wholesaler')">
+        <button type="button" class="nav-tab-item" data-page="swap" onclick="window.lekhaApp.navigateTo('swap')">
+          <span class="icon">🔄</span>
+          <span>स्टॉक एक्सचेंज</span>
+          <span class="badge-count" style="background:#ea580c;" id="navSwapMatchCount">3-4 KM</span>
+        </button>
           <span class="icon">🚚</span>
           <span>थोक रीऑर्डर</span>
           <span class="badge-count" id="navLowStockCount">5</span>
@@ -142,6 +147,18 @@
             <span class="metric-badge alert">रीऑर्डर जरूरी</span>
           </div>
           <div class="metric-subtitle">चना दाल, तेल, कोलगेट का स्टॉक खत्म होने वाला है</div>
+        </div>
+
+                <div class="metric-card orange" id="statDeadStockBox" style="cursor: pointer; border-left: 4px solid #ea580c;" onclick="window.lekhaApp.navigateTo('swap')">
+          <div class="metric-card-top">
+            <span class="label">फंसा माल (3-4 KM एक्सचेंज)</span>
+            <div class="metric-icon-circle" style="background: rgba(234, 88, 12, 0.15); color: #ea580c;">🔄</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="statDeadStock" style="color: #ea580c;">₹0</span>
+            <span class="metric-badge alert" style="background: #fff7ed; color: #ea580c;">0% घाटा</span>
+          </div>
+          <div class="metric-subtitle" id="dashDeadStockSubtitle">3-4 KM दुकानों को थोक भाव पर ट्रांसफर करें</div>
         </div>
 
         <div class="metric-card purple">
@@ -725,6 +742,98 @@
       </div>
     </section>
 
+    <!-- =====================================================
+         PAGE 8: 🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM ZERO-LOSS STOCK SWAP)
+         ===================================================== -->
+    <section class="page-view" id="page-swap">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="pulse-radar"></span>
+            <h2>🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Network)</h2>
+          </div>
+          <p>नजदीकी किराना दुकानों के साथ फंसा माल थोक खरीद भाव पर ट्रांसफर करें • 0% घाटा • 100% रिकवरी</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-secondary" onclick="window.lekhaApp.shareSwapWhatsApp()">
+            <span>📲 WhatsApp पर शेयर करें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Explainer Banner -->
+      <div class="swap-explainer-banner">
+        <div class="explainer-icon">💡</div>
+        <div class="explainer-text">
+          <strong>किराना नो-लॉस एक्सचेंज क्या है?</strong><br>
+          जब किसी थोक कार्टन का सामान आपकी दुकान पर धीरे बिकता है या अटक जाता है, तो वह एक्सपायर होने का खतरा रहता है। 
+          LEKHA के इस सिस्टम से आप 3-4 KM के दायरे की नजदीकी किराना दुकानों को वही सामान 
+          <strong>उसी थोक खरीद भाव (Wholesale Cost Price)</strong> पर देकर अपनी 100% फंसी पूंजी वापस निकाल सकते हैं। 
+          <strong>न कोई नुकसान • न कोई बर्बादी!</strong>
+        </div>
+      </div>
+
+      <!-- Quick Recovery Stats Summary -->
+      <div class="swap-stats-row">
+        <div class="swap-stat-item">
+          <div class="s-label">दुकान में फंसी पूंजी (Dead Stock)</div>
+          <div class="s-val" id="swapLockedCapital" style="color: #ea580c;">₹0</div>
+        </div>
+        <div class="swap-stat-item">
+          <div class="s-label">नजदीकी मांग मैच (Matching Shops)</div>
+          <div class="s-val" id="swapMatchingCount" style="color: #2563eb;">0 दुकानें</div>
+        </div>
+        <div class="swap-stat-item">
+          <div class="s-label">सफलतापूर्वक रिकवर की गई रकम</div>
+          <div class="s-val" id="swapRecoveredAmount" style="color: #16a34a;">₹0</div>
+        </div>
+      </div>
+
+      <!-- Exchange Sub-Tabs -->
+      <div class="swap-nav-pills">
+        <button type="button" class="swap-pill-btn active" data-swaptab="liquidate">
+          📤 मेरा फंसा माल निकालें (Liquidate Stock)
+        </button>
+        <button type="button" class="swap-pill-btn" data-swaptab="surplus">
+          📥 पड़ोस की दुकानों से थोक भाव पर लें (Nearby Surplus)
+        </button>
+        <button type="button" class="swap-pill-btn" data-swaptab="history">
+          📜 ट्रांसफर लेज़र (Recovery Ledger)
+        </button>
+      </div>
+
+      <!-- Panel A: Liquidate My Dead Stock -->
+      <div class="swap-tab-panel active" id="swapTabLiquidate">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          आपकी दुकान का वह सामान जो पिछले कई हफ्तों से नहीं बिका है। इसे पास की उन दुकानों को बेचें जहाँ इसकी तुरंत मांग है:
+        </div>
+        <div id="swapMyDeadStockList">
+          <!-- Dynamic stagnant items to liquidate -->
+        </div>
+      </div>
+
+      <!-- Panel B: Nearby Surplus To Buy at Cost -->
+      <div class="swap-tab-panel" id="swapTabSurplus" style="display: none;">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          3-4 KM के दायरे की दुकानों के पास अतिरिक्त पड़ा माल, जो वे बिना किसी मुनाफे के सीधे <strong>थोक भाव</strong> पर दे रही हैं। 
+          आपको बड़ा थोक कार्टन खरीदने की ज़रूरत नहीं:
+        </div>
+        <div id="swapNearbySurplusList">
+          <!-- Dynamic surplus from other stores -->
+        </div>
+      </div>
+
+      <!-- Panel C: Transfer Ledger -->
+      <div class="swap-tab-panel" id="swapTabHistory" style="display: none;">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          सफलतापूर्वक की गई नो-लॉस स्टॉक ट्रांसफर डील्स और रिकवर की गई पूंजी का रिकॉर्ड:
+        </div>
+        <div id="swapHistoryList">
+          <!-- Completed peer-to-peer zero-loss transactions -->
+        </div>
+      </div>
+    </section>
+
   </main>
 
 
@@ -784,6 +893,70 @@
   <!-- =======================================================
        TOAST NOTIFICATIONS CONTAINER
        ======================================================= -->
+
+  <!-- ========================================== -->
+  <!-- MODAL: 🔄 ZERO-LOSS PEER-TO-PEER TRANSFER   -->
+  <!-- ========================================== -->
+  <div id="swapTransferModal" class="lekha-modal">
+    <div class="modal-sheet">
+      <button class="modal-close" onclick="document.getElementById('swapTransferModal').classList.remove('active')">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 26px;">🔄</span>
+        <div>
+          <h3 style="font-size: 16px; margin: 0;" id="swapModalItemTitle">सामान का नाम</h3>
+          <div style="font-size: 11px; color: #64748b;">3-4 KM नजदीकी दुकान को थोक खरीद भाव पर ट्रांसफर करें</div>
+        </div>
+      </div>
+
+      <!-- Pricing Comparison Card -->
+      <div class="swap-modal-price-card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-size: 12px;">थोक खरीद भाव (Wholesale Cost):</span>
+          <span style="font-weight: 700; color: #0f172a;" id="swapModalCostPrice">₹0 / unit</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-size: 12px;">दुकान का खुदरा रेट (Retail MRP):</span>
+          <span style="font-size: 12px; color: #64748b;" id="swapModalRetailPrice">₹0 / unit</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 6px;">
+          <span style="font-weight: 600; font-size: 12px; color: #15803d;">ट्रांसफर रेट (Zero-Loss Rate):</span>
+          <span style="font-weight: 800; font-size: 13.5px; color: #15803d;" id="swapModalTransferRate">₹0 / unit (0% घाटा)</span>
+        </div>
+      </div>
+
+      <div class="form-input-group" style="margin: 14px 0;">
+        <label class="form-label" style="display: flex; justify-content: space-between;">
+          <span>ट्रांसफर करने की मात्रा (Quantity to Liquidate):</span>
+          <span id="swapModalAvailableStock" style="color: #2563eb; font-weight: 600;">उपलब्ध: 0</span>
+        </label>
+        <input type="number" id="swapTransferQty" class="form-input" min="0.25" step="0.25" value="1">
+      </div>
+
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 11px; color: #166534; font-weight: 600;">तुरंत वापस मिलने वाली फंसी पूंजी:</div>
+          <div style="font-size: 18px; font-weight: 800; color: #15803d;" id="swapModalTotalRecovery">₹0</div>
+        </div>
+        <span class="badge-pill badge-green" style="background:#dcfce7;color:#15803d;padding:4px 8px;border-radius:12px;font-size:11px;font-weight:700;">100% रिकवरी</span>
+      </div>
+
+      <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">
+        📍 नजदीकी दुकानें (3-4 KM का दायरा):
+      </div>
+      <div id="swapNearbyShopsSelection" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+        <!-- Dynamic list of nearby shops with radio selection -->
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="btnConfirmSwapTransfer" class="btn btn-primary" style="flex: 2; justify-content: center;">
+          🤝 ट्रांसफर पक्का करें
+        </button>
+        <button type="button" id="btnShareSwapWhatsapp" class="btn btn-secondary" style="flex: 1; justify-content: center; background: #25D366; color: #fff; border-color: #25D366;">
+          📲 WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="app-toast-container" id="appToastContainer"></div>
 
 

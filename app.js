@@ -8,27 +8,27 @@
 // Initial Seed Inventory (Authentic Kirana stock items)
 const DEFAULT_INVENTORY = [
   // Grains & Pulses (अनाज व दालें)
-  { id: 'item_1', name: 'बासमती चावल (Basmati Rice)', category: 'grains', stock: 18.5, unit: 'kg', rate: 70, avgMarketRate: 68, isLoose: true, lastSoldDays: 1, reorderQty: 25 },
-  { id: 'item_2', name: 'अरहर दाल (Toor Dal)', category: 'grains', stock: 3.5, unit: 'kg', rate: 145, avgMarketRate: 140, isLoose: true, lastSoldDays: 1, reorderQty: 20 },
-  { id: 'item_3', name: 'सफेद चीनी (Sugar)', category: 'grains', stock: 24.0, unit: 'kg', rate: 44, avgMarketRate: 43, isLoose: true, lastSoldDays: 0, reorderQty: 50 },
-  { id: 'item_4', name: 'आशीर्वाद आटा (Atta 5kg)', category: 'grains', stock: 8, unit: 'pkt', rate: 220, avgMarketRate: 220, isLoose: false, lastSoldDays: 2, reorderQty: 10 },
-  { id: 'item_5', name: 'चना दाल (Chana Dal)', category: 'grains', stock: 2.0, unit: 'kg', rate: 82, avgMarketRate: 80, isLoose: true, lastSoldDays: 28, reorderQty: 15 },
+  { id: 'item_1', name: 'बासमती चावल (Basmati Rice)', category: 'grains', stock: 18.5, unit: 'kg', rate: 70, costPrice: 60, avgMarketRate: 68, isLoose: true, lastSoldDays: 1, reorderQty: 25 },
+  { id: 'item_2', name: 'अरहर दाल (Toor Dal)', category: 'grains', stock: 3.5, unit: 'kg', rate: 145, costPrice: 126, avgMarketRate: 140, isLoose: true, lastSoldDays: 1, reorderQty: 20 },
+  { id: 'item_3', name: 'सफेद चीनी (Sugar)', category: 'grains', stock: 24.0, unit: 'kg', rate: 44, costPrice: 38, avgMarketRate: 43, isLoose: true, lastSoldDays: 0, reorderQty: 50 },
+  { id: 'item_4', name: 'आशीर्वाद आटा (Atta 5kg)', category: 'grains', stock: 8, unit: 'pkt', rate: 220, costPrice: 195, avgMarketRate: 220, isLoose: false, lastSoldDays: 2, reorderQty: 10 },
+  { id: 'item_5', name: 'चना दाल (Chana Dal)', category: 'grains', stock: 2.0, unit: 'kg', rate: 82, costPrice: 70, avgMarketRate: 80, isLoose: true, lastSoldDays: 28, reorderQty: 15, isDeadStock: true },
 
   // Oils & Spices (तेल, घी व मसाले)
-  { id: 'item_6', name: 'फॉर्च्यून सोयाबीन तेल 1L', category: 'oils', stock: 4, unit: 'pkt', rate: 135, avgMarketRate: 135, isLoose: false, lastSoldDays: 0, reorderQty: 15 },
-  { id: 'item_7', name: 'सरसों तेल खुला (Mustard Oil)', category: 'oils', stock: 12.0, unit: 'L', rate: 150, avgMarketRate: 148, isLoose: true, lastSoldDays: 1, reorderQty: 30 },
-  { id: 'item_8', name: 'एमडीएच हल्दी पाउडर 100g', category: 'oils', stock: 14, unit: 'pkt', rate: 36, avgMarketRate: 36, isLoose: false, lastSoldDays: 3, reorderQty: 20 },
-  { id: 'item_9', name: 'टाटा नमक 1kg (Tata Salt)', category: 'oils', stock: 25, unit: 'pkt', rate: 28, avgMarketRate: 28, isLoose: false, lastSoldDays: 0, reorderQty: 30 },
+  { id: 'item_6', name: 'फॉर्च्यून सोयाबीन तेल 1L', category: 'oils', stock: 4, unit: 'pkt', rate: 135, costPrice: 120, avgMarketRate: 135, isLoose: false, lastSoldDays: 0, reorderQty: 15 },
+  { id: 'item_7', name: 'सरसों तेल खुला (Mustard Oil)', category: 'oils', stock: 12.0, unit: 'L', rate: 150, costPrice: 134, avgMarketRate: 148, isLoose: true, lastSoldDays: 1, reorderQty: 30 },
+  { id: 'item_8', name: 'एमडीएच हल्दी पाउडर 100g', category: 'oils', stock: 14, unit: 'pkt', rate: 36, costPrice: 30, avgMarketRate: 36, isLoose: false, lastSoldDays: 3, reorderQty: 20 },
+  { id: 'item_9', name: 'टाटा नमक 1kg (Tata Salt)', category: 'oils', stock: 25, unit: 'pkt', rate: 28, costPrice: 23, avgMarketRate: 28, isLoose: false, lastSoldDays: 0, reorderQty: 30 },
 
   // Household & Soaps (साबुन व घरेलू सामान)
-  { id: 'item_10', name: 'रिन डिटर्जेंट साबुन (Rin Bar)', category: 'household', stock: 3, unit: 'pc', rate: 20, avgMarketRate: 20, isLoose: false, lastSoldDays: 1, reorderQty: 24 },
-  { id: 'item_11', name: 'सर्फ एक्सेल 500g (Surf Excel)', category: 'household', stock: 9, unit: 'pkt', rate: 75, avgMarketRate: 75, isLoose: false, lastSoldDays: 2, reorderQty: 12 },
-  { id: 'item_12', name: 'कोलगेट टूथपेस्ट 100g', category: 'household', stock: 1, unit: 'pc', rate: 60, avgMarketRate: 60, isLoose: false, lastSoldDays: 35, reorderQty: 12 },
+  { id: 'item_10', name: 'रिन डिटर्जेंट साबुन (Rin Bar)', category: 'household', stock: 3, unit: 'pc', rate: 20, costPrice: 16, avgMarketRate: 20, isLoose: false, lastSoldDays: 1, reorderQty: 24 },
+  { id: 'item_11', name: 'सर्फ एक्सेल 500g (Surf Excel)', category: 'household', stock: 9, unit: 'pkt', rate: 75, costPrice: 64, avgMarketRate: 75, isLoose: false, lastSoldDays: 2, reorderQty: 12 },
+  { id: 'item_12', name: 'कोलगेट टूथपेस्ट 100g', category: 'household', stock: 1, unit: 'pc', rate: 60, costPrice: 48, avgMarketRate: 60, isLoose: false, lastSoldDays: 35, reorderQty: 12, isDeadStock: true },
 
   // Snacks & Biscuits (स्नैक्स, नमकीन व बिस्कुट)
-  { id: 'item_13', name: 'पार्ले-जी बिस्कुट (Parle-G 10/-)', category: 'snacks', stock: 28, unit: 'pkt', rate: 10, avgMarketRate: 10, isLoose: false, lastSoldDays: 0, reorderQty: 48 },
-  { id: 'item_14', name: 'मैगी नूडल्स (Maggi 14/-)', category: 'snacks', stock: 5, unit: 'pkt', rate: 14, avgMarketRate: 14, isLoose: false, lastSoldDays: 0, reorderQty: 36 },
-  { id: 'item_15', name: 'ताज महल चाय पत्ती 250g', category: 'snacks', stock: 7, unit: 'pkt', rate: 110, avgMarketRate: 110, isLoose: false, lastSoldDays: 2, reorderQty: 10 }
+  { id: 'item_13', name: 'पार्ले-जी बिस्कुट (Parle-G 10/-)', category: 'snacks', stock: 28, unit: 'pkt', rate: 10, costPrice: 8.5, avgMarketRate: 10, isLoose: false, lastSoldDays: 0, reorderQty: 48 },
+  { id: 'item_14', name: 'मैगी नूडल्स (Maggi 14/-)', category: 'snacks', stock: 5, unit: 'pkt', rate: 14, costPrice: 11.5, avgMarketRate: 14, isLoose: false, lastSoldDays: 0, reorderQty: 36 },
+  { id: 'item_15', name: 'ताज महल चाय पत्ती 250g', category: 'snacks', stock: 7, unit: 'pkt', rate: 110, costPrice: 92, avgMarketRate: 110, isLoose: false, lastSoldDays: 2, reorderQty: 10 }
 ];
 
 // Seed Khata Customers
@@ -72,10 +72,102 @@ const SAMPLE_OCR_SLIPS = [
   }
 ];
 
+
+// Hyperlocal Network: Nearby Kirana Shops within 3-4 KM Radius
+const DEFAULT_NEARBY_SHOPS = [
+  {
+    id: 'shop_1',
+    name: 'मिश्रा कॉर्नर प्रोविज़न',
+    owner: 'रमेश मिश्रा',
+    distance: 0.8,
+    area: 'गली नं. 3, सब्जी मंडी के पास',
+    phone: '9871123456',
+    neededItems: ['item_5', 'item_10'], // चना दाल, रिन साबुन
+    note: 'दुकान में चना दाल खत्म हो गई है, तुरंत 2-3 kg चाहिए।'
+  },
+  {
+    id: 'shop_2',
+    name: 'वर्मा डेली नीड्स',
+    owner: 'राजेश वर्मा',
+    distance: 1.2,
+    area: 'विकास नगर चौराहा',
+    phone: '9810987654',
+    neededItems: ['item_12', 'item_7'], // कोलगेट टूथपेस्ट, सरसों तेल
+    note: 'टूथपेस्ट और सरसों तेल की तत्काल आवश्यकता।'
+  },
+  {
+    id: 'shop_3',
+    name: 'शर्मा किराना एंड जनरल स्टोर',
+    owner: 'सुरेश शर्मा',
+    distance: 2.1,
+    area: 'स्टेशन रोड, पोस्ट ऑफिस के पास',
+    phone: '9818812345',
+    neededItems: ['item_5', 'item_15'], // चना दाल, ताज महल चाय
+    note: 'चना दाल और चाय पत्ती 250g चाहिए।'
+  },
+  {
+    id: 'shop_4',
+    name: 'बालाजी मिनी सुपरमार्ट',
+    owner: 'मनोज गुप्ता',
+    distance: 3.4,
+    area: 'शिव मंदिर मेन मार्केट',
+    phone: '9899123456',
+    neededItems: ['item_11', 'item_1'], // सर्फ एक्सेल, बासमती चावल
+    note: 'सर्फ एक्सेल 500g के 5-10 पैकेट चाहिए।'
+  }
+];
+
+// Surplus items from other shops in 3-4 KM network available at wholesale cost
+const DEFAULT_NEARBY_SURPLUS = [
+  {
+    id: 'surplus_1',
+    shopId: 'shop_2',
+    shopName: 'वर्मा डेली नीड्स (1.2 KM)',
+    itemId: 'item_14',
+    itemName: 'मैगी नूडल्स (Maggi 14/-)',
+    availableQty: 24,
+    unit: 'pkt',
+    wholesaleCost: 11.5,
+    retailRate: 14,
+    reason: 'अतिरिक्त 2 पेटी माल रखा है, कोई भी नजदीकी दुकानदार लागत भाव पर ले सकता है।'
+  },
+  {
+    id: 'surplus_2',
+    shopId: 'shop_3',
+    shopName: 'शर्मा किराना स्टोर (2.1 KM)',
+    itemId: 'item_8',
+    itemName: 'एमडीएच हल्दी पाउडर 100g',
+    availableQty: 10,
+    unit: 'pkt',
+    wholesaleCost: 30,
+    retailRate: 36,
+    reason: 'थोक बंडल में ज्यादा आ गया था, होलसेल रेट पर उपलब्ध।'
+  },
+  {
+    id: 'surplus_3',
+    shopId: 'shop_4',
+    shopName: 'बालाजी सुपरमार्ट (3.4 KM)',
+    itemId: 'item_3',
+    itemName: 'सफेद चीनी (Sugar loose)',
+    availableQty: 50,
+    unit: 'kg',
+    wholesaleCost: 38,
+    retailRate: 44,
+    reason: '50kg की अतिरिक्त बोरी मंडी भाव (₹38/kg) पर उपलब्ध।'
+  }
+];
+
 class LekhaRetailApp {
   constructor() {
     this.activePage = 'dashboard';
-    this.currentRole = 'shopkeeper'; // shopkeeper | customer | wholesaler
+    this.currentRole = 'shopkeeper';
+
+    // 3-4 KM Hyperlocal Stock Swap Network State
+    this.nearbyShops = this.loadStorage('lekha_nearby_shops', DEFAULT_NEARBY_SHOPS);
+    this.nearbySurplus = this.loadStorage('lekha_nearby_surplus', DEFAULT_NEARBY_SURPLUS);
+    this.swapTransfers = this.loadStorage('lekha_swap_transfers', []);
+    this.selectedSwapItem = null;
+    this.selectedTargetShopId = null; // shopkeeper | customer | wholesaler
     this.inventory = this.loadStorage('lekha_inventory', DEFAULT_INVENTORY);
     this.khataCustomers = this.loadStorage('lekha_khata', DEFAULT_KHATA_CUSTOMERS);
     this.bills = this.loadStorage('lekha_bills', [
@@ -187,6 +279,9 @@ class LekhaRetailApp {
     });
 
     // Specialized page activations
+    if (pageId === 'swap') {
+      this.renderSwapView();
+    }
     if (pageId === 'shelf') {
       setTimeout(() => this.initOrResize3DShelf(), 50);
     } else if (pageId === 'customer') {
@@ -197,6 +292,7 @@ class LekhaRetailApp {
       this.renderKhataCards();
     } else if (pageId === 'wholesaler') {
       this.renderReorderList();
+    this.renderSwapView();
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1016,6 +1112,371 @@ class LekhaRetailApp {
       setTimeout(() => toast.remove(), 300);
     }, 2800);
   }
+
+
+  // ==========================================
+  // 🔄 3-4 KM HYPERLOCAL KIRANA SWAP NETWORK
+  // ==========================================
+  renderSwapView() {
+    const stagnantItems = this.inventory.filter(i => (i.lastSoldDays >= 14 || i.isDeadStock) && i.stock > 0);
+    const lockedCapital = stagnantItems.reduce((sum, it) => sum + (it.stock * (it.costPrice || Math.round(it.rate * 0.82))), 0);
+    const recoveredAmount = this.swapTransfers.reduce((sum, t) => sum + (t.recoveredAmount || 0), 0);
+
+    const matchingShopsCount = this.nearbyShops.filter(shop => {
+      return stagnantItems.some(st => shop.neededItems && shop.neededItems.includes(st.id));
+    }).length;
+
+    const elLocked = document.getElementById('swapLockedCapital');
+    if (elLocked) elLocked.textContent = '₹' + Math.round(lockedCapital).toLocaleString('en-IN');
+
+    const elMatches = document.getElementById('swapMatchingCount');
+    if (elMatches) elMatches.textContent = matchingShopsCount + ' दुकानें';
+
+    const elRecovered = document.getElementById('swapRecoveredAmount');
+    if (elRecovered) elRecovered.textContent = '₹' + Math.round(recoveredAmount).toLocaleString('en-IN');
+
+    // Panel A: My Dead Stock
+    const myDeadList = document.getElementById('swapMyDeadStockList');
+    if (myDeadList) {
+      if (stagnantItems.length === 0) {
+        myDeadList.innerHTML = `
+          <div style="text-align: center; padding: 32px 16px; background: #f8fafc; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+            <div style="font-size: 32px; margin-bottom: 8px;">🎉</div>
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">शानदार! कोई फंसा हुआ माल (डेड स्टॉक) नहीं है</div>
+            <div style="font-size: 12px; color: var(--text-muted);">आपकी दुकान की सभी वस्तुएं नियमित रूप से बिक रही हैं।</div>
+          </div>
+        `;
+      } else {
+        myDeadList.innerHTML = stagnantItems.map(item => {
+          const cost = item.costPrice || Math.round(item.rate * 0.82);
+          const locked = Math.round(item.stock * cost);
+          const matchingShops = this.nearbyShops.filter(s => s.neededItems && s.neededItems.includes(item.id));
+          const hasDirectMatch = matchingShops.length > 0;
+
+          return `
+            <div class="swap-item-card ${hasDirectMatch ? 'is-urgent' : ''}">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div>
+                  <div style="font-weight: 700; font-size: 14.5px; color: #0f172a;">${item.name}</div>
+                  <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
+                    आखरी बिक्री: <strong>${item.lastSoldDays} दिन पहले</strong> • दुकान में बचा स्टॉक: <strong>${item.stock} ${item.unit}</strong>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 15px; font-weight: 800; color: #ea580c;">₹${locked} फंसा</div>
+                  <div style="font-size: 10.5px; color: #64748b;">लागत: ₹${cost}/${item.unit}</div>
+                </div>
+              </div>
+
+              ${hasDirectMatch ? `
+                <div class="match-callout">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 16px;">🎯</span>
+                    <span><strong>${matchingShops[0].name} (${matchingShops[0].distance} KM)</strong> को इस सामान की तत्काल आवश्यकता है!</span>
+                  </div>
+                  <span class="distance-badge">📍 ${matchingShops[0].distance} KM</span>
+                </div>
+              ` : `
+                <div style="font-size: 11.5px; color: #64748b; margin: 6px 0;">
+                  3-4 KM के दायरे में 4 अन्य किराना दुकानें उपलब्ध हैं।
+                </div>
+              `}
+
+              <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button type="button" class="btn btn-primary" style="flex: 2; padding: 7px 12px; font-size: 12px;" onclick="window.lekhaApp.openSwapModal('${item.id}')">
+                  🔄 पास की दुकान को ट्रांसफर करें (₹${locked} वापस लें)
+                </button>
+                <button type="button" class="btn btn-secondary" style="flex: 1; padding: 7px 10px; font-size: 12px;" onclick="window.lekhaApp.shareSwapWhatsApp('${item.id}')">
+                  📲 WhatsApp
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Panel B: Nearby Surplus
+    const nearbyList = document.getElementById('swapNearbySurplusList');
+    if (nearbyList) {
+      if (this.nearbySurplus.length === 0) {
+        nearbyList.innerHTML = `
+          <div style="text-align: center; padding: 32px 16px; background: #f8fafc; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+            <div style="font-size: 32px; margin-bottom: 8px;">📦</div>
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">अभी कोई अतिरिक्त सरप्लस लिस्टेड नहीं है</div>
+            <div style="font-size: 12px; color: var(--text-muted);">जैसे ही कोई नजदीकी दुकान अतिरिक्त स्टॉक शेयर करेगी, यहाँ दिखेगा।</div>
+          </div>
+        `;
+      } else {
+        nearbyList.innerHTML = this.nearbySurplus.map(sur => {
+          return `
+            <div class="swap-item-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-weight: 700; font-size: 14.5px; color: #0f172a;">${sur.itemName}</span>
+                    <span class="distance-badge">📍 ${sur.shopName}</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+                    ${sur.reason}
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 15px; font-weight: 800; color: #15803d;">₹${sur.wholesaleCost}/${sur.unit}</div>
+                  <div style="font-size: 10.5px; color: #64748b;">बाजार MRP: ₹${sur.retailRate}</div>
+                </div>
+              </div>
+
+              <div style="background: #f8fafc; border-radius: 8px; padding: 8px 12px; margin: 8px 0; font-size: 11.5px; display: flex; justify-content: space-between;">
+                <span>उपलब्ध मात्रा: <strong>${sur.availableQty} ${sur.unit}</strong></span>
+                <span style="color: #15803d; font-weight: 600;">लागत भाव पर बिना कार्टन लिए</span>
+              </div>
+
+              <button type="button" class="btn btn-primary" style="width: 100%; padding: 8px 12px; font-size: 12px;" onclick="window.lekhaApp.buyNearbySurplus('${sur.id}')">
+                📥 थोक भाव पर अपनी दुकान में लें (₹${sur.wholesaleCost}/${sur.unit})
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Panel C: Transfer Ledger
+    const historyList = document.getElementById('swapHistoryList');
+    if (historyList) {
+      if (this.swapTransfers.length === 0) {
+        historyList.innerHTML = `
+          <div style="text-align: center; padding: 32px 16px; background: #f8fafc; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+            <div style="font-size: 32px; margin-bottom: 8px;">📜</div>
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">अभी तक कोई नो-लॉस ट्रांसफर नहीं हुआ</div>
+            <div style="font-size: 12px; color: var(--text-muted);">जब आप किसी पास की दुकान को फंसा माल देंगे, उसका हिसाब यहाँ सुरक्षित रहेगा।</div>
+          </div>
+        `;
+      } else {
+        historyList.innerHTML = this.swapTransfers.map(tr => {
+          return `
+            <div class="swap-item-card" style="border-left: 4px solid #16a34a;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <div>
+                  <span style="font-size: 11px; color: #64748b; font-weight: 600;">ID: ${tr.id} • ${tr.time}</span>
+                  <div style="font-weight: 700; font-size: 14px; color: #0f172a; margin-top: 2px;">
+                    ${tr.itemName} (${tr.qty} ${tr.unit})
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 16px; font-weight: 800; color: #16a34a;">+₹${tr.recoveredAmount}</div>
+                  <span class="badge-pill badge-green" style="font-size: 10px;">100% रिकवर</span>
+                </div>
+              </div>
+              <div style="font-size: 11.5px; color: #475569; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #e2e8f0; padding-top: 6px; margin-top: 6px;">
+                <span>दुकान: <strong>${tr.targetShopName}</strong></span>
+                <span class="distance-badge">📍 ${tr.targetShopDistance} KM</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+  }
+
+  openSwapModal(itemId) {
+    const item = this.inventory.find(i => i.id === itemId);
+    if (!item) return;
+
+    this.selectedSwapItem = item;
+    const modal = document.getElementById('swapTransferModal');
+    if (!modal) return;
+
+    const cost = item.costPrice || Math.round(item.rate * 0.82);
+
+    document.getElementById('swapModalItemTitle').textContent = item.name;
+    document.getElementById('swapModalCostPrice').textContent = '₹' + cost + ' / ' + item.unit;
+    document.getElementById('swapModalRetailPrice').textContent = '₹' + item.rate + ' / ' + item.unit;
+    document.getElementById('swapModalTransferRate').textContent = '₹' + cost + ' / ' + item.unit + ' (0% घाटा)';
+    document.getElementById('swapModalAvailableStock').textContent = 'दुकान में स्टॉक: ' + item.stock + ' ' + item.unit;
+
+    const qtyInput = document.getElementById('swapTransferQty');
+    if (qtyInput) {
+      qtyInput.value = item.stock;
+      qtyInput.max = item.stock;
+    }
+
+    const shopListEl = document.getElementById('swapNearbyShopsSelection');
+    if (shopListEl) {
+      const sortedShops = [...this.nearbyShops].sort((a, b) => {
+        const aHas = a.neededItems && a.neededItems.includes(item.id) ? 1 : 0;
+        const bHas = b.neededItems && b.neededItems.includes(item.id) ? 1 : 0;
+        if (bHas !== aHas) return bHas - aHas;
+        return a.distance - b.distance;
+      });
+
+      this.selectedTargetShopId = sortedShops[0].id;
+
+      shopListEl.innerHTML = sortedShops.map((shop, idx) => {
+        const isMatch = shop.neededItems && shop.neededItems.includes(item.id);
+        const isSelected = idx === 0;
+
+        return `
+          <div class="shop-radio-option ${isSelected ? 'selected' : ''}" onclick="window.lekhaApp.selectSwapTargetShop('${shop.id}', this)">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="radio" name="swapTargetShopRadio" value="${shop.id}" ${isSelected ? 'checked' : ''} style="accent-color:#2563eb;">
+              <div>
+                <div style="font-weight:700; font-size:13px; color:#0f172a;">
+                  ${shop.name}
+                  ${isMatch ? '<span class="badge-pill badge-green" style="margin-left:4px; font-size:10px;">🎯 मांग उपलब्ध</span>' : ''}
+                </div>
+                <div style="font-size:11px; color:#64748b;">${shop.area} • 📞 ${shop.phone}</div>
+              </div>
+            </div>
+            <span class="distance-badge">📍 ${shop.distance} KM</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    this.recalcSwapModal();
+    modal.classList.add('active');
+  }
+
+  selectSwapTargetShop(shopId, element) {
+    this.selectedTargetShopId = shopId;
+    document.querySelectorAll('.shop-radio-option').forEach(el => el.classList.remove('selected'));
+    if (element) element.classList.add('selected');
+    const radio = element ? element.querySelector('input[type="radio"]') : null;
+    if (radio) radio.checked = true;
+  }
+
+  recalcSwapModal() {
+    if (!this.selectedSwapItem) return;
+    const item = this.selectedSwapItem;
+    const cost = item.costPrice || Math.round(item.rate * 0.82);
+    let qty = parseFloat(document.getElementById('swapTransferQty').value) || 0;
+
+    if (qty > item.stock) {
+      qty = item.stock;
+      document.getElementById('swapTransferQty').value = qty;
+    }
+
+    const totalRecovery = Math.round(qty * cost * 10) / 10;
+    const recEl = document.getElementById('swapModalTotalRecovery');
+    if (recEl) recEl.textContent = '₹' + totalRecovery;
+
+    const btnConfirm = document.getElementById('btnConfirmSwapTransfer');
+    if (btnConfirm) btnConfirm.textContent = '🤝 ट्रांसफर पक्का करें (₹' + totalRecovery + ' रिकवर)';
+  }
+
+  executeSwapTransfer() {
+    if (!this.selectedSwapItem) return;
+    const item = this.selectedSwapItem;
+    const cost = item.costPrice || Math.round(item.rate * 0.82);
+    const qty = parseFloat(document.getElementById('swapTransferQty').value) || 0;
+
+    if (qty <= 0) {
+      alert('कृपया ट्रांसफर के लिए सही मात्रा भरें।');
+      return;
+    }
+
+    const targetShop = this.nearbyShops.find(s => s.id === this.selectedTargetShopId) || this.nearbyShops[0];
+    const totalRecovery = Math.round(qty * cost * 10) / 10;
+
+    item.stock = Math.max(0, parseFloat((item.stock - qty).toFixed(2)));
+    if (item.stock === 0) {
+      item.lastSoldDays = 0;
+    }
+    this.saveStorage('lekha_inventory', this.inventory);
+
+    const transferRecord = {
+      id: 'TR-' + Date.now().toString().slice(-4),
+      time: new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short' }),
+      itemId: item.id,
+      itemName: item.name,
+      qty: qty,
+      unit: item.unit,
+      costPrice: cost,
+      recoveredAmount: totalRecovery,
+      targetShopId: targetShop.id,
+      targetShopName: targetShop.name,
+      targetShopDistance: targetShop.distance
+    };
+
+    this.swapTransfers.unshift(transferRecord);
+    this.saveStorage('lekha_swap_transfers', this.swapTransfers);
+
+    const modal = document.getElementById('swapTransferModal');
+    if (modal) modal.classList.remove('active');
+    this.selectedSwapItem = null;
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+
+    this.showToast(`🎉 ₹${totalRecovery} रिकवर! ${item.name} '${targetShop.name}' (${targetShop.distance} KM) को ट्रांसफर हुआ।`, '🤝');
+  }
+
+  shareSwapWhatsApp(itemId) {
+    const item = (itemId ? this.inventory.find(i => i.id === itemId) : null) || this.selectedSwapItem;
+    if (!item) {
+      const stagnant = this.inventory.find(i => (i.lastSoldDays >= 14 || i.isDeadStock) && i.stock > 0);
+      if (!stagnant) {
+        alert('कोई फंसा हुआ स्टॉक नहीं है जिसे शेयर किया जाए।');
+        return;
+      }
+      return this.shareSwapWhatsApp(stagnant.id);
+    }
+
+    const cost = item.costPrice || Math.round(item.rate * 0.82);
+    const targetShop = this.nearbyShops.find(s => s.id === this.selectedTargetShopId) || this.nearbyShops[0];
+
+    const message = '*LEKHA - पास-पड़ोस किराना एक्सचेंज (Zero-Loss Transfer)*\n' +
+      'नमस्ते ' + targetShop.owner + ' जी (' + targetShop.name + '),\n\n' +
+      'मेरे पास *' + item.name + '* का अतिरिक्त स्टॉक उपलब्ध है:\n' +
+      '• उपलब्ध मात्रा: *' + item.stock + ' ' + item.unit + '*\n' +
+      '• थोक खरीद भाव (Wholesale Cost): *₹' + cost + '/' + item.unit + '* (MRP ₹' + item.rate + ')\n' +
+      '• कुल रकम: *₹' + Math.round(item.stock * cost) + '* (0% मुनाफा / नो-लॉस ट्रांसफर)\n\n' +
+      'अगर आपकी दुकान के लिए चाहिए तो कृपया बताएं, मैं 3-4 KM के दायरे में हैंडओवर कर सकता हूँ।\n\n' +
+      '- गुप्ता किराना स्टोर';
+
+    const encoded = encodeURIComponent(message);
+    window.open('https://wa.me/?text=' + encoded, '_blank');
+  }
+
+  buyNearbySurplus(surplusId) {
+    const sur = this.nearbySurplus.find(s => s.id === surplusId);
+    if (!sur) return;
+
+    if (!confirm(`क्या आप '${sur.shopName}' से '${sur.itemName}' (${sur.availableQty} ${sur.unit}) थोक भाव ₹${sur.wholesaleCost}/${sur.unit} पर लेना चाहते हैं?`)) {
+      return;
+    }
+
+    const invItem = this.inventory.find(i => i.id === sur.itemId || i.name.toLowerCase().includes(sur.itemName.toLowerCase()));
+    if (invItem) {
+      invItem.stock = parseFloat((invItem.stock + sur.availableQty).toFixed(2));
+      invItem.lastSoldDays = 0;
+      invItem.costPrice = sur.wholesaleCost;
+    } else {
+      this.inventory.push({
+        id: 'item_' + Date.now(),
+        name: sur.itemName,
+        category: 'grains',
+        stock: sur.availableQty,
+        unit: sur.unit,
+        rate: sur.retailRate,
+        costPrice: sur.wholesaleCost,
+        avgMarketRate: sur.retailRate,
+        isLoose: false,
+        lastSoldDays: 0,
+        reorderQty: 10
+      });
+    }
+    this.saveStorage('lekha_inventory', this.inventory);
+
+    this.nearbySurplus = this.nearbySurplus.filter(s => s.id !== surplusId);
+    this.saveStorage('lekha_nearby_surplus', this.nearbySurplus);
+
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+
+    this.showToast(`✅ '${sur.itemName}' स्टॉक में जुड़ा! थोक भाव ₹${sur.wholesaleCost}/${sur.unit} पर मिला।`, '📦');
+  }
+
 }
 
 // Global App Initialization

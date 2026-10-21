@@ -1,0 +1,13 @@
+[
+  {
+    "id": "ORD-101",
+    "customer": "रमेश भाई (Ramesh Bhai)",
+    "items": [
+      { "name": "बासमती चावल (Basmati Rice)", "qty": 2.0, "rate": 70 },
+      { "name": "सफेद चीनी (Sugar)", "qty": 0.5, "rate": 44 }
+    ],
+    "total": 162,
+    "status": "pending",
+    "createdAt": "2026-10-21 11:30"
+  }
+]

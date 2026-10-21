@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LEKHA (लेखा) - स्मार्ट किराना बिलिंग, 3D शेल्फ एवं डिजिटल खाता</title>
+  <meta name="description" content="किराना दुकानदारों के लिए 1-हाथ से चलने वाला बिलिंग, 3D स्टोर शेल्फ, AI पर्ची स्कैनर और ग्राहक QR कार्ट सिस्टम।">
+  
+  <!-- Web App Manifest & Mobile Theme -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Top Application Header -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="logo-area">
+        <div class="logo-icon">ल</div>
+        <div class="logo-text">
+          <h1>LEKHA</h1>
+          <p>किराना बिलिंग & डिजिटल बहीखाता</p>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div class="offline-badge">
+          <span>ऑफ़लाइन सुरक्षित</span>
+        </div>
+        <div id="headerDate" style="font-size: 11px; color: #94a3b8; margin-top: 4px;"></div>
+      </div>
+    </div>
+
+    <!-- 3 Roles Login / Switcher Bar -->
+    <div class="role-bar">
+      <button class="role-btn active" data-role="shopkeeper">
+        🏪 दुकानदार (Kirana)
+      </button>
+      <button class="role-btn" data-role="customer">
+        🛒 ग्राहक (Customer)
+      </button>
+      <button class="role-btn" data-role="wholesaler">
+        📦 थोक व्यापारी (Wholesale)
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- ========================================== -->
+    <!-- PORTAL 1: 🏪 SHOPKEEPER (दुकानदार)       -->
+    <!-- ========================================== -->
+    <section id="portalShopkeeper" class="tab-content active">
+
+      <!-- Stats Overview -->
+      <div class="stats-banner">
+        <div class="stat-box">
+          <div class="label">आज की कुल बिक्री</div>
+          <div class="val" id="statTotalSales" style="color: #16a34a;">₹0</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">आज के कुल बिल</div>
+          <div class="val" id="statTotalBills">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">कम स्टॉक चेतावनी</div>
+          <div class="val" id="statLowStock" style="color: #ef4444;">0 सामान</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons for Busy Kirana Owner (Big Touch Targets) -->
+      <div class="big-action-grid">
+        <div class="big-btn" id="btnOpenOcrScanner">
+          <div class="icon" style="background: #eff6ff; color: #2563eb;">📸</div>
+          <div>
+            <div class="title">AI पर्ची से बिल बनाएं</div>
+            <div class="sub">हाथ से लिखी पर्ची स्कैन करें</div>
+          </div>
+        </div>
+
+        <div class="big-btn" id="btnOpenQrScanner">
+          <div class="icon" style="background: #f0fdf4; color: #16a34a;">📱</div>
+          <div>
+            <div class="title">ग्राहक का QR स्कैन करें</div>
+            <div class="sub">1 सेकंड में कार्ट लोड करें</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view 1: 1-Tap Fast Billing (⚡ अंगूठे से बिलिंग) -->
+      <div class="shop-tab-view active" data-view="billing">
+        <div class="lekha-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              ⚡ 1-हाथ से त्वरित बिलिंग (Quick Billing)
+            </div>
+            <span class="badge-pill badge-blue">फास्ट मोड</span>
+          </div>
+
+          <!-- Quick Item Selection Grid -->
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+            दुकान का सामान (टैप करके चुनें):
+          </div>
+          <div class="quick-items-grid" id="quickItemsGrid">
+            <!-- Dynamic quick item tiles -->
+          </div>
+
+          <!-- Bill Input Form -->
+          <form id="quickBillForm">
+            <div class="form-input-group">
+              <label class="form-label">ग्राहक का नाम (वैकल्पिक)</label>
+              <input type="text" id="billCustName" class="form-input" placeholder="नगद ग्राहक (उदा. रमेश)">
+            </div>
+
+            <div class="form-row-3">
+              <div class="form-input-group">
+                <label class="form-label">सामान का नाम</label>
+                <input type="text" id="billItemName" class="form-input" placeholder="सामान चुनें या लिखें" required>
+              </div>
+
+              <div class="form-input-group">
+                <label class="form-label">मात्रा (Qty)</label>
+                <input type="number" step="0.25" id="billItemQty" class="form-input" value="1" required>
+              </div>
+
+              <div class="form-input-group">
+                <label class="form-label">रेट ₹</label>
+                <input type="number" id="billItemRate" class="form-input" placeholder="0" required>
+              </div>
+            </div>
+
+            <!-- Forgiving Quick Quantity Chips for Kirana -->
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+              अक्सर बिकने वाली मात्रा (Quick Tap):
+            </div>
+            <div class="chip-row">
+              <button type="button" class="qty-chip active" data-val="1">1 kg / pkt</button>
+              <button type="button" class="qty-chip" data-val="0.5">आधा किलो (500g)</button>
+              <button type="button" class="qty-chip" data-val="0.25">पाव भर (250g)</button>
+              <button type="button" class="qty-chip" data-val="2">2 kg / pkt</button>
+              <button type="button" class="qty-chip" data-val="5">5 kg</button>
+            </div>
+
+            <!-- Total Calculation & Thumb-reachable Submit -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0 10px 0;">
+              <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">कुल रकम:</span>
+              <span id="billCalculatedTotal" style="font-size: 24px; font-weight: 800; color: #16a34a;">₹0</span>
+            </div>
+
+            <button type="submit" class="btn-primary">
+              💾 बिल पक्का करें (Add Sale)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sub-view 2: 📦 3D Shop Shelf Model (दुकान का 3D शेल्फ) -->
+      <div class="shop-tab-view" data-view="shelf">
+        <div class="lekha-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              🏬 दुकान का 3D शेल्फ व स्टॉक मॉडल
+            </div>
+            <span class="badge-pill badge-green">लाइव 3D रैक</span>
+          </div>
+          
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+            दुकान के फिजिकल रैक को 3D में देखें। रंग देखकर तुरंत समझें कि कौन सा सामान खत्म होने वाला है।
+          </div>
+
+          <div class="shelf-canvas-container">
+            <canvas id="shelfCanvas" width="900" height="420"></canvas>
+            <div class="shelf-overlay-legend">
+              <div class="legend-item">
+                <span class="legend-dot" style="background: #10b981;"></span>
+                <span>हरा: भरपूर स्टॉक (>10)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot" style="background: #f59e0b;"></span>
+                <span>पीला: कम बचा (3-10)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot" style="background: #ef4444;"></span>
+                <span>लाल: तुरंत मंगाएं (&lt;3)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view 3: 📋 रीऑर्डर शीट (Reorder Sheet for Wholesaler) -->
+      <div class="shop-tab-view" data-view="reorder">
+        <div class="lekha-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              📋 रीऑर्डर शीट (कम स्टॉक व रुका हुआ माल)
+            </div>
+            <button class="btn-whatsapp" id="btnWhatsappReorder">
+              📲 WhatsApp पर भेजें
+            </button>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+            यह शीट खुद तय करती है कि कौन सा सामान तेज़ बिक रहा है और क्या मंगाना है, तथा कौन सा माल दुकान में फंसा हुआ है।
+          </div>
+
+          <div id="reorderListContainer">
+            <!-- Dynamic Reorder & Dead Stock Items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view 4: 📜 आज के बिल (Today's Bills History) -->
+      <div class="shop-tab-view" data-view="bills">
+        <div class="lekha-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              📜 आज के बने हुए बिल
+            </div>
+          </div>
+
+          <div class="lekha-table-box">
+            <table class="lekha-table">
+              <thead>
+                <tr>
+                  <th>बिल / समय</th>
+                  <th>ग्राहक</th>
+                  <th>सामान (मात्रा × भाव)</th>
+                  <th>रकम</th>
+                  <th>स्थिति</th>
+                </tr>
+              </thead>
+              <tbody id="todayBillsTbody">
+                <!-- Dynamic Bill rows -->
+              </tbody>
+            </table>
+            <div id="noBillsState" style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 13px;">
+              आज अभी तक कोई बिल नहीं बना है।
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- PORTAL 2: 🛒 CUSTOMER (ग्राहक)           -->
+    <!-- ========================================== -->
+    <section id="portalCustomer" class="tab-content">
+      <div class="lekha-card">
+        <div class="card-title-row">
+          <div class="card-title">
+            🛒 अपनी खरीदारी की लिस्ट बनाएं
+          </div>
+          <span class="badge-pill badge-green">घर बैठे कार्ट</span>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          घर से सामान चुनकर QR कोड बनाएं। दुकान पर जाकर सिर्फ QR कोड दिखाएं और बिना इंतज़ार किए सामान पाएं।
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-input-group">
+            <label class="form-label">सामान चुनें</label>
+            <select id="custItemSelect" class="form-input">
+              <!-- Dynamic Options -->
+            </select>
+          </div>
+
+          <div class="form-input-group">
+            <label class="form-label">मात्रा (Qty)</label>
+            <input type="number" step="0.25" id="custItemQty" class="form-input" value="1" min="0.25">
+          </div>
+        </div>
+
+        <!-- Loose Item Market Avg Rate Info Callout -->
+        <div id="custAvgRateInfo" style="margin-bottom: 14px;"></div>
+
+        <button type="button" id="btnAddCustomerCart" class="btn-primary" style="margin-bottom: 18px;">
+          ➕ लिस्ट में जोड़ें (Add to List)
+        </button>
+
+        <div style="font-weight: 700; font-size: 14px; margin-bottom: 10px;">
+          📋 आपकी खरीदारी लिस्ट (Shopping List):
+        </div>
+        <div id="customerCartContainer" style="margin-bottom: 20px;">
+          <!-- Dynamic Cart Items -->
+        </div>
+
+        <!-- Generated QR Code Wrapper -->
+        <div id="customerQrCodeWrapper" style="text-align: center; margin-top: 10px;">
+          <!-- SVG QR Code gets injected here -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- PORTAL 3: 📦 WHOLESALER (थोक व्यापारी)   -->
+    <!-- ========================================== -->
+    <section id="portalWholesaler" class="tab-content">
+      <div class="lekha-card">
+        <div class="card-title-row">
+          <div class="card-title">
+            📦 थोक व्यापारी पोर्टल (Wholesaler Hub)
+          </div>
+          <span class="badge-pill badge-yellow">डिस्ट्रीब्यूटर</span>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          किराना दुकानों से आए हुए ऑर्डर्स को तुरंत देखें और सप्लाई डिस्पैच करें।
+        </div>
+
+        <div id="wholesalerIncomingOrders">
+          <!-- Incoming low-stock orders from Kirana store -->
+        </div>
+
+        <div style="margin-top: 24px;">
+          <h3 style="font-size: 15px; margin-bottom: 10px;">🚚 थोक सप्लाई कैटलॉग (Bulk Packs):</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
+              <div style="font-weight: 700; font-size: 13px;">बासमती चावल (50kg कट्टा)</div>
+              <div style="font-size: 12px; color: #2563eb; font-weight: 600;">थोक रेट: ₹3,100 / बोरी</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
+              <div style="font-weight: 700; font-size: 13px;">फॉर्च्यून तेल (15L टिन)</div>
+              <div style="font-size: 12px; color: #2563eb; font-weight: 600;">थोक रेट: ₹1,850 / टिन</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
+              <div style="font-weight: 700; font-size: 13px;">पारले-जी बिस्कुट (पेटी 48 पीस)</div>
+              <div style="font-size: 12px; color: #2563eb; font-weight: 600;">थोक रेट: ₹420 / कार्टन</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reset / Test Data Helper -->
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="btnResetSampleData" style="background: transparent; border: 1px dashed #cbd5e1; color: #94a3b8; padding: 6px 14px; border-radius: 20px; font-size: 11px; cursor: pointer;">
+        🔄 टेस्ट डेटा रीसेट करें (Reset Sample Data)
+      </button>
+    </div>
+
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL: AI HANDWRITTEN SLIP SCANNER        -->
+  <!-- ========================================== -->
+  <div id="ocrModal" class="lekha-modal">
+    <div class="modal-sheet">
+      <button class="modal-close">&times;</button>
+      <h3 style="font-size: 16px; margin-bottom: 12px;">📸 AI हस्तलिखित पर्ची स्कैनर</h3>
+
+      <div class="ocr-scanner-box">
+        <div class="ocr-laser-line"></div>
+        <div style="font-size: 32px; margin-bottom: 8px;">📄</div>
+        <div style="font-weight: 700; font-size: 14px;">दुकानदार की पर्ची स्कैन हो रही है...</div>
+        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+          AI हस्तलिखित हिंदी व अंग्रेजी पर्ची पढ़कर बिल बनाएगा
+        </div>
+      </div>
+
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+        तुरंत टेस्ट करने के लिए सैंपल पर्ची चुनें:
+      </div>
+      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <button class="qty-chip" onclick="window.lekhaApp.processSampleSlip(0)">
+          पर्ची 1 (रमेश: 2kg चावल, 500g चीनी, तेल)
+        </button>
+        <button class="qty-chip" onclick="window.lekhaApp.processSampleSlip(1)">
+          पर्ची 2 (सुमन: 1kg दाल, मैगी, बिस्कुट)
+        </button>
+      </div>
+
+      <div id="ocrExtractedResult"></div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL: SCAN CUSTOMER QR CODE               -->
+  <!-- ========================================== -->
+  <div id="qrScanModal" class="lekha-modal">
+    <div class="modal-sheet">
+      <button class="modal-close">&times;</button>
+      <h3 style="font-size: 16px; margin-bottom: 12px;">📱 ग्राहक का QR कोड स्कैन</h3>
+
+      <div style="background: #0f172a; color: #fff; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 14px;">
+        <div style="font-size: 30px; margin-bottom: 6px;">📷</div>
+        <div style="font-weight: 700; font-size: 13px;">कैमरा स्कैनर एक्टिवेटेड</div>
+        <div style="font-size: 11px; color: #94a3b8;">ग्राहक के फोन का QR कोड फ्रेम में लाएं</div>
+      </div>
+
+      <div id="qrScanResultBox">
+        <!-- Results of scanned cart -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL: 3D RACK DRILLDOWN & STOCK REFILL    -->
+  <!-- ========================================== -->
+  <div id="rackDetailsModal" class="lekha-modal">
+    <div class="modal-sheet">
+      <button class="modal-close">&times;</button>
+      <h3 id="rackModalTitle" style="font-size: 16px; margin-bottom: 14px;">रैक का सामान</h3>
+      <div id="rackModalContent"></div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- THUMB-REACHABLE MOBILE BOTTOM NAVIGATION   -->
+  <!-- ========================================== -->
+  <nav class="mobile-nav-bar" id="mobileNavBar">
+    <button class="nav-item active" data-tab="billing">
+      <span class="icon">⚡</span>
+      <span>बिलिंग</span>
+    </button>
+    <button class="nav-item" data-tab="shelf">
+      <span class="icon">📦</span>
+      <span>3D शेल्फ</span>
+    </button>
+    <button class="nav-item" data-tab="reorder">
+      <span class="icon">📋</span>
+      <span>रीऑर्डर</span>
+    </button>
+    <button class="nav-item" data-tab="bills">
+      <span class="icon">📜</span>
+      <span>आज के बिल</span>
+    </button>
+  </nav>
+
+  <!-- App Core Scripts -->
+  <script src="./qr-engine.js"></script>
+  <script src="./shelf3d.js"></script>
+  <script src="./app.js"></script>
+
+  <!-- Offline Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {
+          console.log('SW registration skipped in sandbox');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

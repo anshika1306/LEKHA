@@ -1313,6 +1313,7 @@ class LekhaApp {
       const cartItem = this.customerCart.find(c => c.id === item.id);
       const inCartQty = cartItem ? cartItem.qty : 0;
       const isInCart = inCartQty > 0;
+      const svgArtwork = window.ProductAssets ? window.ProductAssets.getProductSvg(item) : '';
       const emoji = item.emoji || '📦';
       const imgSrc = item.img || '';
 
@@ -1321,12 +1322,14 @@ class LekhaApp {
           <div class="card-img-wrap">
             <span class="card-loose-badge">${item.isLoose ? 'खुला सामान' : 'पैकेट'}</span>
             ${isInCart ? `<span class="card-in-cart-tag">✓ ${inCartQty} ${item.unit}</span>` : ''}
-            ${imgSrc ? `
+            ${svgArtwork ? `
+              <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding: 4px;">${svgArtwork}</div>
+            ` : (imgSrc ? `
               <img src="${imgSrc}" alt="${item.name}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
               <span class="card-img-fallback" style="display:none;">${emoji}</span>
             ` : `
               <span class="card-img-fallback">${emoji}</span>
-            `}
+            `)}
           </div>
 
           <div class="card-title">${item.name}</div>

@@ -1076,14 +1076,16 @@ table.lekha-table td {
   margin-bottom: 8px;
 }
 
-.card-img-wrap img {
+.card-img-wrap img,
+.card-img-wrap svg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-.cust-product-card:hover .card-img-wrap img {
+.cust-product-card:hover .card-img-wrap img,
+.cust-product-card:hover .card-img-wrap svg {
   transform: scale(1.06);
 }
 

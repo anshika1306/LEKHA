@@ -1,0 +1,83 @@
+{
+  "nearbyShops": [
+    {
+      "id": "shop_1",
+      "name": "मिश्रा कॉर्नर प्रोविज़न",
+      "owner": "रमेश मिश्रा",
+      "distance": 0.8,
+      "area": "गली नं. 3, सब्जी मंडी के पास",
+      "phone": "9871123456",
+      "neededItems": ["item_5", "item_10"],
+      "note": "दुकान में चना दाल खत्म हो गई है, तुरंत 2-3 kg चाहिए।"
+    },
+    {
+      "id": "shop_2",
+      "name": "वर्मा डेली नीड्स",
+      "owner": "राजेश वर्मा",
+      "distance": 1.2,
+      "area": "विकास नगर चौराहा",
+      "phone": "9810987654",
+      "neededItems": ["item_12", "item_7"],
+      "note": "टूथपेस्ट और सरसों तेल की तत्काल आवश्यकता।"
+    },
+    {
+      "id": "shop_3",
+      "name": "शर्मा किराना एंड जनरल स्टोर",
+      "owner": "सुरेश शर्मा",
+      "distance": 2.1,
+      "area": "स्टेशन रोड, पोस्ट ऑफिस के पास",
+      "phone": "9818812345",
+      "neededItems": ["item_5", "item_15"],
+      "note": "चना दाल और चाय पत्ती 250g चाहिए।"
+    },
+    {
+      "id": "shop_4",
+      "name": "बालाजी मिनी सुपरमार्ट",
+      "owner": "मनोज गुप्ता",
+      "distance": 3.4,
+      "area": "शिव मंदिर मेन मार्केट",
+      "phone": "9899123456",
+      "neededItems": ["item_11", "item_1"],
+      "note": "सर्फ एक्सेल 500g के 5-10 पैकेट चाहिए।"
+    }
+  ],
+  "nearbySurplus": [
+    {
+      "id": "surplus_1",
+      "shopId": "shop_2",
+      "shopName": "वर्मा डेली नीड्स (1.2 KM)",
+      "itemId": "item_14",
+      "itemName": "मैगी नूडल्स (Maggi 14/-)",
+      "availableQty": 12,
+      "unit": "pkt",
+      "wholesaleCost": 11.5,
+      "retailRate": 14,
+      "reason": "थोक में 2 कार्टन एक्स्ट्रा आ गए, खरीद भाव पर उपलब्ध।"
+    },
+    {
+      "id": "surplus_2",
+      "shopId": "shop_1",
+      "shopName": "मिश्रा कॉर्नर प्रोविज़न (0.8 KM)",
+      "itemId": "item_9",
+      "itemName": "टाटा नमक 1kg (Tata Salt)",
+      "availableQty": 10,
+      "unit": "pkt",
+      "wholesaleCost": 23,
+      "retailRate": 28,
+      "reason": "दुकान में जगह कम है, 0% मुनाफे पर नजदीकी दुकान को दे रहे हैं।"
+    },
+    {
+      "id": "surplus_3",
+      "shopId": "shop_4",
+      "shopName": "बालाजी मिनी सुपरमार्ट (3.4 KM)",
+      "itemId": "item_4",
+      "itemName": "आशीर्वाद आटा (Atta 5kg)",
+      "availableQty": 4,
+      "unit": "pkt",
+      "wholesaleCost": 195,
+      "retailRate": 220,
+      "reason": "धीमी बिक्री, 3-4 KM की दुकान को थोक भाव पर ट्रांसफर।"
+    }
+  ],
+  "transfers": []
+}

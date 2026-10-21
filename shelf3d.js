@@ -68,17 +68,22 @@ class StoreShelf3D {
       this.isDragging = false;
     });
 
-    // Click to select rack
-    this.canvas.addEventListener('click', (e) => {
+    // Click / Tap to select rack
+    const handleRackSelect = (clientY) => {
       const rect = this.canvas.getBoundingClientRect();
-      const clickY = e.clientY - rect.top;
+      const scaleY = rect.height > 0 ? this.canvas.height / rect.height : 1;
+      const clickY = (clientY - rect.top) * scaleY;
       
-      const rackIndex = Math.min(3, Math.max(0, Math.floor((clickY - 30) / 90)));
+      const rackIndex = Math.min(3, Math.max(0, Math.floor((clickY - 20) / 95)));
       this.selectedRackIndex = rackIndex;
       this.render();
       if (this.onSelectRack) {
         this.onSelectRack(this.racks[rackIndex]);
       }
+    };
+
+    this.canvas.addEventListener('click', (e) => {
+      handleRackSelect(e.clientY);
     });
   }
 

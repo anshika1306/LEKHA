@@ -116,8 +116,10 @@ const DEFAULT_NEARBY_SURPLUS = [
 
 class LekhaApp {
   constructor() {
+    window.lekhaApp = this; // Immediate global reference so all onclick handlers work instantly
     this.currentRole = 'shopkeeper'; // 'shopkeeper' | 'customer' | 'wholesaler'
     this.currentSubTab = 'billing';
+    this.isBackendOnline = false;
     this.inventory = this.loadInventory();
     this.bills = this.loadBills();
     this.customerCart = this.loadCustomerCart();
@@ -133,6 +135,78 @@ class LekhaApp {
     this.initEventListeners();
     this.renderAll();
     this.init3DShelf();
+    this.syncWithBackend();
+  }
+
+  // --- Backend REST API Synchronization ---
+  async syncWithBackend() {
+    try {
+      const res = await fetch('/api/status', { cache: 'no-store' });
+      if (res.ok) {
+        this.isBackendOnline = true;
+        this.updateBackendStatusBadge(true);
+
+        // Fetch latest inventory from backend
+        try {
+          const invRes = await fetch('/api/inventory', { cache: 'no-store' });
+          if (invRes.ok) {
+            const serverInv = await invRes.json();
+            if (Array.isArray(serverInv) && serverInv.length > 0) {
+              this.inventory = serverInv;
+              localStorage.setItem('lekha_inventory', JSON.stringify(this.inventory));
+            }
+          }
+        } catch (e) {}
+
+        // Fetch latest bills from backend
+        try {
+          const billsRes = await fetch('/api/bills', { cache: 'no-store' });
+          if (billsRes.ok) {
+            const serverBills = await billsRes.json();
+            if (Array.isArray(serverBills) && serverBills.length > 0) {
+              this.bills = serverBills;
+              localStorage.setItem('lekha_bills', JSON.stringify(this.bills));
+            }
+          }
+        } catch (e) {}
+
+        // Fetch swap data from backend
+        try {
+          const swapRes = await fetch('/api/swap', { cache: 'no-store' });
+          if (swapRes.ok) {
+            const swapData = await swapRes.json();
+            if (swapData.nearbyShops && swapData.nearbyShops.length > 0) this.nearbyShops = swapData.nearbyShops;
+            if (swapData.nearbySurplus && swapData.nearbySurplus.length > 0) this.nearbySurplus = swapData.nearbySurplus;
+            if (swapData.transfers && swapData.transfers.length > 0) this.swapTransfers = swapData.transfers;
+          }
+        } catch (e) {}
+
+        this.renderAll();
+        if (this.shelf3d) this.shelf3d.render();
+      } else {
+        this.updateBackendStatusBadge(false);
+      }
+    } catch (e) {
+      this.isBackendOnline = false;
+      this.updateBackendStatusBadge(false);
+    }
+  }
+
+  updateBackendStatusBadge(isOnline) {
+    const badge = document.getElementById('backendStatusBadge');
+    if (badge) {
+      if (isOnline) {
+        badge.innerHTML = '<span>🟢 बैकएंड कनेक्टेड (Live REST API)</span>';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        badge.style.color = '#34d399';
+      } else {
+        badge.innerHTML = '<span>📱 ऑफ़लाइन मोड (Local Khata)</span>';
+        badge.style.background = 'rgba(245, 158, 11, 0.15)';
+        badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        badge.style.color = '#fbbf24';
+      }
+    }
   }
 
   // --- Storage Management ---
@@ -155,6 +229,14 @@ class LekhaApp {
   saveInventory() {
     localStorage.setItem('lekha_inventory', JSON.stringify(this.inventory));
     if (this.shelf3d) this.shelf3d.render();
+
+    if (this.isBackendOnline) {
+      fetch('/api/inventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.inventory)
+      }).catch(() => {});
+    }
   }
 
   loadNearbyShops() {
@@ -435,6 +517,7 @@ class LekhaApp {
     } else if (tab === 'swap') {
       this.renderSwapView();
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // --- Rendering Functions ---
@@ -557,6 +640,15 @@ class LekhaApp {
     this.bills.unshift(newBill);
     this.saveBills();
 
+    // Async push to backend
+    if (this.isBackendOnline) {
+      fetch('/api/bills', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBill)
+      }).catch(() => {});
+    }
+
     // Reset Form
     document.getElementById('billItemName').value = '';
     document.getElementById('billItemQty').value = '1';
@@ -569,6 +661,18 @@ class LekhaApp {
 
     // Success sound/vibration feedback
     if (navigator.vibrate) navigator.vibrate(50);
+  }
+
+  selectQtyChip(val, chipEl) {
+    document.querySelectorAll('.qty-chip').forEach(c => c.classList.remove('active'));
+    if (chipEl) chipEl.classList.add('active');
+    const qtyInput = document.getElementById('billItemQty');
+    if (qtyInput) qtyInput.value = val;
+    this.recalcBillAmount();
+  }
+
+  closeAllModals() {
+    document.querySelectorAll('.lekha-modal').forEach(m => m.classList.remove('active'));
   }
 
   renderTodayBillsTable() {
@@ -626,8 +730,11 @@ class LekhaApp {
               <div style="font-weight:700; font-size:13px;">${item.name}</div>
               <div style="font-size:11px; color:#ef4444;">बचा हुआ स्टॉक: ${item.stock} ${item.unit}</div>
             </div>
-            <div style="text-align:right;">
+            <div style="text-align:right; display:flex; align-items:center; gap:8px;">
               <span class="badge-pill badge-yellow">जरूरत: +${item.reorderQty} ${item.unit}</span>
+              <button type="button" class="btn-primary" style="background:#2563eb; font-size:11px; padding:4px 8px; border-radius:6px; cursor:pointer;" onclick="window.lekhaApp.quickRefillStock('${item.id}', ${item.reorderQty})">
+                + भरें
+              </button>
             </div>
           </div>
         `;
@@ -1041,7 +1148,7 @@ class LekhaApp {
         <ul style="font-size:13px; padding-left:18px; margin-bottom:12px;">
           ${lowStockItems.map(it => `<li><strong>${it.name}</strong> - ${it.reorderQty} ${it.unit}</li>`).join('')}
         </ul>
-        <button class="btn-accent" style="width:100%; justify-content:center;" onclick="alert('सप्लाई डिस्पैच मार्क कर दी गई!')">
+        <button class="btn-accent" style="width:100%; justify-content:center; cursor:pointer;" onclick="window.lekhaApp.dispatchWholesaleOrders()">
           🚚 माल भेजा गया (Mark Dispatched)
         </button>
       </div>
@@ -1403,6 +1510,15 @@ class LekhaApp {
     this.swapTransfers.unshift(transferRecord);
     this.saveSwapTransfers();
 
+    // Async push to backend
+    if (this.isBackendOnline) {
+      fetch('/api/swap/transfer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(transferRecord)
+      }).catch(() => {});
+    }
+
     // 3. Close modal & re-render
     document.querySelectorAll('.lekha-modal').forEach(m => m.classList.remove('active'));
     this.selectedSwapItem = null;
@@ -1474,9 +1590,165 @@ class LekhaApp {
 
     alert(`✅ माल आपके स्टॉक में जुड़ गया! बिना बड़ा कार्टन खरीदे आपको थोक भाव ₹${sur.wholesaleCost}/${sur.unit} पर सामान मिल गया।`);
   }
+
+  switchSwapTab(tab) {
+    document.querySelectorAll('.swap-pill-btn').forEach(b => b.classList.toggle('active', b.dataset.swaptab === tab));
+    const pLiquidate = document.getElementById('swapTabLiquidate');
+    const pSurplus = document.getElementById('swapTabSurplus');
+    const pHistory = document.getElementById('swapTabHistory');
+    if (pLiquidate) pLiquidate.style.display = tab === 'liquidate' ? 'block' : 'none';
+    if (pSurplus) pSurplus.style.display = tab === 'surplus' ? 'block' : 'none';
+    if (pHistory) pHistory.style.display = tab === 'history' ? 'block' : 'none';
+  }
+
+  // --- Wholesaler Operations & Restock ---
+  dispatchWholesaleOrders() {
+    const lowStockItems = this.inventory.filter(i => i.stock <= 5);
+    if (lowStockItems.length === 0) {
+      alert('अभी किसी सामान का स्टॉक कम नहीं है!');
+      return;
+    }
+
+    lowStockItems.forEach(it => {
+      it.stock = parseFloat((it.stock + it.reorderQty).toFixed(2));
+      it.lastSoldDays = 0;
+    });
+
+    this.saveInventory();
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+
+    if (this.isBackendOnline) {
+      fetch('/api/wholesaler/dispatch', { method: 'POST' }).catch(() => {});
+    }
+
+    alert(`🚚 माल सफलतापूर्वक दुकान में डिस्पैच हो गया और इन्वेंट्री रीफिल हो गई!`);
+  }
+
+  supplyWholesaleBulk(name, unit, addQty, costPrice, retailRate, category = 'grains') {
+    let item = this.inventory.find(i => i.name.toLowerCase().includes(name.toLowerCase()));
+    if (item) {
+      item.stock = parseFloat((item.stock + addQty).toFixed(2));
+      item.costPrice = costPrice;
+      item.rate = retailRate;
+      item.lastSoldDays = 0;
+    } else {
+      item = {
+        id: 'item_' + Date.now(),
+        name: name,
+        category: category,
+        stock: addQty,
+        unit: unit,
+        rate: retailRate,
+        costPrice: costPrice,
+        avgMarketRate: retailRate,
+        isLoose: false,
+        lastSoldDays: 0,
+        reorderQty: Math.max(10, Math.round(addQty / 2))
+      };
+      this.inventory.push(item);
+    }
+
+    this.saveInventory();
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+
+    alert(`✅ थोक सप्लाई '${name}' (${addQty} ${unit}) दुकान के स्टॉक में जुड़ गई!`);
+  }
+
+  addNewProductFromWholesaler() {
+    const nameEl = document.getElementById('wsNewItemName');
+    const catEl = document.getElementById('wsNewItemCat');
+    const qtyEl = document.getElementById('wsNewItemQty');
+    const costEl = document.getElementById('wsNewItemCost');
+    const rateEl = document.getElementById('wsNewItemRate');
+
+    if (!nameEl || !catEl || !qtyEl || !costEl || !rateEl) return;
+
+    const name = nameEl.value.trim();
+    const category = catEl.value;
+    const qty = parseFloat(qtyEl.value) || 0;
+    const costPrice = parseFloat(costEl.value) || 0;
+    const rate = parseFloat(rateEl.value) || 0;
+
+    if (!name || qty <= 0 || costPrice <= 0 || rate <= 0) {
+      alert('कृपया सभी फ़ील्ड सही भरें!');
+      return;
+    }
+
+    const newItem = {
+      id: 'item_' + Date.now(),
+      name: name,
+      category: category,
+      stock: qty,
+      unit: 'pkt',
+      rate: rate,
+      costPrice: costPrice,
+      avgMarketRate: rate,
+      isLoose: false,
+      lastSoldDays: 0,
+      reorderQty: Math.max(5, Math.round(qty / 2))
+    };
+
+    this.inventory.unshift(newItem);
+    this.saveInventory();
+
+    // Reset Form
+    nameEl.value = '';
+    qtyEl.value = '20';
+    costEl.value = '';
+    rateEl.value = '';
+
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+
+    alert(`🎉 नया उत्पाद '${name}' सफलतापूर्वक दुकान में स्टॉक हो गया!`);
+  }
+
+  // --- Reset All Data Helper ---
+  async resetAllData() {
+    if (!confirm('क्या आप सभी टेस्ट डेटा को रीसेट करना चाहते हैं?')) return;
+    localStorage.clear();
+    this.inventory = DEFAULT_INVENTORY;
+    this.bills = [];
+    this.customerCart = [];
+    this.nearbyShops = DEFAULT_NEARBY_SHOPS;
+    this.nearbySurplus = DEFAULT_NEARBY_SURPLUS;
+    this.swapTransfers = [];
+
+    this.saveInventory();
+    this.saveBills();
+    this.saveCustomerCart();
+    this.saveNearbyShops();
+    this.saveNearbySurplus();
+    this.saveSwapTransfers();
+
+    if (this.isBackendOnline) {
+      try {
+        await fetch('/api/reset', { method: 'POST' });
+        await fetch('/api/inventory', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(DEFAULT_INVENTORY)
+        });
+      } catch (e) {}
+    }
+
+    this.renderAll();
+    if (this.shelf3d) this.shelf3d.render();
+    alert('डेटा सफलतापूर्वक रीसेट हो गया!');
+  }
 }
 
 // Global initialization
-window.addEventListener('DOMContentLoaded', () => {
-  window.lekhaApp = new LekhaApp();
-});
+function initLekha() {
+  if (!window.lekhaApp) {
+    window.lekhaApp = new LekhaApp();
+  }
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initLekha);
+} else {
+  initLekha();
+}

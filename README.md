@@ -79,6 +79,14 @@ LEKHA दुकानदारों को जटिल ERP सॉफ्टव�
    ```
 3. ब्राउज़र में `http://localhost:5173/` खोलें।
 
+### विकल्प 3: फुल-स्टैक बैकएंड सर्वर द्वारा (PowerShell REST API Backend)
+1. टर्मिनल / PowerShell में चलाएं:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\serve.ps1
+   ```
+2. ब्राउज़र में `http://localhost:5173/` खोलें।
+3. इसमें लाइव REST API बैकएंड एक्टिवेट रहता है (`/api/inventory`, `/api/bills`, `/api/swap`, `/api/wholesaler/dispatch`) और सारा डेटा `data/` फोल्डर में JSON फाइलों में सुरक्षित रहता है।
+
 ---
 
 ## लाइसेंस (License)

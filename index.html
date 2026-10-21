@@ -74,6 +74,10 @@
           <div class="label">कम स्टॉक चेतावनी</div>
           <div class="val" id="statLowStock" style="color: #ef4444;">0 सामान</div>
         </div>
+        <div class="stat-box" id="statDeadStockBox" style="cursor: pointer;" title="3-4 KM में फंसा माल बेचें">
+          <div class="label">फंसा माल (डेड स्टॉक)</div>
+          <div class="val" id="statDeadStock" style="color: #ea580c;">₹0</div>
+        </div>
       </div>
 
       <!-- Quick Action Buttons for Busy Kirana Owner (Big Touch Targets) -->
@@ -93,6 +97,24 @@
             <div class="sub">1 सेकंड में कार्ट लोड करें</div>
           </div>
         </div>
+      </div>
+
+      <!-- 3-4 KM Local Kirana Swap Smart Alert -->
+      <div class="swap-quick-alert" id="swapDeadStockAlert" style="display: flex; align-items: center; justify-content: space-between; background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; cursor: pointer;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="font-size: 26px;">🔄</div>
+          <div>
+            <div style="font-weight: 700; font-size: 13px; color: #9a3412;">
+              पास-पड़ोस किराना एक्सचेंज (3-4 KM नो-लॉस नेटवर्क)
+            </div>
+            <div style="font-size: 11px; color: #c2410c;" id="swapAlertSubtext">
+              दुकान का फंसा हुआ माल नजदीकी दुकानों को थोक खरीद भाव पर बेचें • 0% नुकसान
+            </div>
+          </div>
+        </div>
+        <button type="button" class="badge-pill" style="background: #ea580c; color: #fff; border: none; padding: 6px 12px; font-weight: 700; cursor: pointer;">
+          एक्सचेंज खोलें ➔
+        </button>
       </div>
 
       <!-- Sub-view 1: 1-Tap Fast Billing (⚡ अंगूठे से बिलिंग) -->
@@ -246,6 +268,91 @@
               आज अभी तक कोई बिल नहीं बना है।
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Sub-view 5: 🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Stock Swap) -->
+      <div class="shop-tab-view" data-view="swap">
+        <div class="lekha-card swap-hero-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <span class="pulse-radar"></span>
+              🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Network)
+            </div>
+            <span class="badge-pill badge-green">4 दुकानें सक्रिय (0.8 - 3.4 KM)</span>
+          </div>
+
+          <div class="swap-explainer-banner">
+            <div class="explainer-icon">💡</div>
+            <div class="explainer-text">
+              <strong>नो-लॉस (Zero-Loss) लिक्विडेशन:</strong><br>
+              थोक व्यापारी से लिया सामान यदि आपकी दुकान में नहीं बिक रहा, तो वह एक्सपायर होकर बर्बाद हो जाता है। 
+              LEKHA के इस सिस्टम से आप 3-4 KM के दायरे की नजदीकी किराना दुकानों को वही सामान 
+              <strong>उसी थोk खरीद भाव (Wholesale Cost Price)</strong> पर देकर अपनी 100% फंसी पूंजी वापस निकाल सकते हैं। 
+              <strong>न कोई नुकसान • न कोई बर्बादी!</strong>
+            </div>
+          </div>
+
+          <!-- Quick Recovery Stats Summary -->
+          <div class="swap-stats-row">
+            <div class="swap-stat-item">
+              <div class="s-label">दुकान में फंसी पूंजी (Dead Stock)</div>
+              <div class="s-val" id="swapLockedCapital" style="color: #ea580c;">₹0</div>
+            </div>
+            <div class="swap-stat-item">
+              <div class="s-label">नजदीकी मांग मैच (Matching Shops)</div>
+              <div class="s-val" id="swapMatchingCount" style="color: #2563eb;">0 दुकानें</div>
+            </div>
+            <div class="swap-stat-item">
+              <div class="s-label">सफलतापूर्वक रिकवर की गई रकम</div>
+              <div class="s-val" id="swapRecoveredAmount" style="color: #16a34a;">₹0</div>
+            </div>
+          </div>
+
+          <!-- Exchange Sub-Tabs -->
+          <div class="swap-nav-pills">
+            <button type="button" class="swap-pill-btn active" data-swaptab="liquidate">
+              📤 मेरा फंसा माल निकालें (Liquidate Stock)
+            </button>
+            <button type="button" class="swap-pill-btn" data-swaptab="surplus">
+              📥 पड़ोस की दुकानों से थोक भाव पर लें (Nearby Surplus)
+            </button>
+            <button type="button" class="swap-pill-btn" data-swaptab="history">
+              📜 ट्रांसफर लेज़र (Recovery Ledger)
+            </button>
+          </div>
+
+          <!-- Panel A: Liquidate My Dead Stock -->
+          <div class="swap-tab-panel active" id="swapTabLiquidate">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+              आपकी दुकान का वह सामान जो पिछले कई हफ्तों से नहीं बिका है। इसे पास की उन दुकानों को बेचें जहाँ इसकी तुरंत मांग है:
+            </div>
+            <div id="swapMyDeadStockList">
+              <!-- Dynamic stagnant items to liquidate -->
+            </div>
+          </div>
+
+          <!-- Panel B: Nearby Surplus To Buy at Cost -->
+          <div class="swap-tab-panel" id="swapTabSurplus" style="display: none;">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+              3-4 KM के दायरे की दुकानों के पास अतिरिक्त पड़ा माल, जो वे बिना किसी मुनाफे के सीधे <strong>थोक भाव</strong> पर दे रही हैं। 
+              आपको बड़ा थोक कार्टन खरीदने की ज़रूरत नहीं:
+            </div>
+            <div id="swapNearbySurplusList">
+              <!-- Dynamic surplus from other stores -->
+            </div>
+          </div>
+
+          <!-- Panel C: Transfer Ledger -->
+          <div class="swap-tab-panel" id="swapTabHistory" style="display: none;">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+              सफलतापूर्वक की गई नो-लॉस स्टॉक ट्रांसफर डील्स और रिकवर की गई पूंजी का रिकॉर्ड:
+            </div>
+            <div id="swapHistoryList">
+              <!-- Completed peer-to-peer zero-loss transactions -->
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -422,6 +529,71 @@
 
 
   <!-- ========================================== -->
+  <!-- MODAL: 🔄 ZERO-LOSS PEER-TO-PEER TRANSFER   -->
+  <!-- ========================================== -->
+  <div id="swapTransferModal" class="lekha-modal">
+    <div class="modal-sheet">
+      <button class="modal-close">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 26px;">🔄</span>
+        <div>
+          <h3 style="font-size: 16px; margin: 0;" id="swapModalItemTitle">सामान का नाम</h3>
+          <div style="font-size: 11px; color: #64748b;">3-4 KM नजदीकी दुकान को थोक खरीद भाव पर ट्रांसफर करें</div>
+        </div>
+      </div>
+
+      <!-- Pricing Comparison Card -->
+      <div class="swap-modal-price-card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-size: 12px;">थोक खरीद भाव (Wholesale Cost):</span>
+          <span style="font-weight: 700; color: #0f172a;" id="swapModalCostPrice">₹0 / unit</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-size: 12px;">दुकान का खुदरा रेट (Retail MRP):</span>
+          <span style="font-size: 12px; color: #64748b;" id="swapModalRetailPrice">₹0 / unit</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 6px;">
+          <span style="font-weight: 600; font-size: 12px; color: #15803d;">ट्रांसफर रेट (Zero-Loss Rate):</span>
+          <span style="font-weight: 800; font-size: 13.5px; color: #15803d;" id="swapModalTransferRate">₹0 / unit (0% घाटा)</span>
+        </div>
+      </div>
+
+      <div class="form-input-group" style="margin: 14px 0;">
+        <label class="form-label" style="display: flex; justify-content: space-between;">
+          <span>ट्रांसफर करने की मात्रा (Quantity to Liquidate):</span>
+          <span id="swapModalAvailableStock" style="color: #2563eb; font-weight: 600;">उपलब्ध: 0</span>
+        </label>
+        <input type="number" id="swapTransferQty" class="form-input" min="0.25" step="0.25" value="1">
+      </div>
+
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 11px; color: #166534; font-weight: 600;">तुरंत वापस मिलने वाली फंसी पूंजी:</div>
+          <div style="font-size: 18px; font-weight: 800; color: #15803d;" id="swapModalTotalRecovery">₹0</div>
+        </div>
+        <span class="badge-pill badge-green">100% रिकवरी</span>
+      </div>
+
+      <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">
+        📍 नजदीकी दुकानें (3-4 KM का दायरा):
+      </div>
+      <div id="swapNearbyShopsSelection" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+        <!-- Dynamic list of nearby shops with radio selection -->
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="btnConfirmSwapTransfer" class="btn-primary" style="flex: 2; justify-content: center;">
+          🤝 ट्रांसफर पक्का करें
+        </button>
+        <button type="button" id="btnShareSwapWhatsapp" class="btn-whatsapp" style="flex: 1; justify-content: center;">
+          📲 WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
   <!-- THUMB-REACHABLE MOBILE BOTTOM NAVIGATION   -->
   <!-- ========================================== -->
   <nav class="mobile-nav-bar" id="mobileNavBar">
@@ -436,6 +608,10 @@
     <button class="nav-item" data-tab="reorder">
       <span class="icon">📋</span>
       <span>रीऑर्डर</span>
+    </button>
+    <button class="nav-item" data-tab="swap">
+      <span class="icon">🔄</span>
+      <span>एक्सचेंज</span>
     </button>
     <button class="nav-item" data-tab="bills">
       <span class="icon">📜</span>

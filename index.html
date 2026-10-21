@@ -3,585 +3,903 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>LEKHA (लेखा) - स्मार्ट किराना बिलिंग, 3D शेल्फ एवं डिजिटल खाता</title>
-  <meta name="description" content="किराना दुकानदारों के लिए 1-हाथ से चलने वाला बिलिंग, 3D स्टोर शेल्फ, AI पर्ची स्कैनर और ग्राहक QR कार्ट सिस्टम।">
-  
-  <!-- Web App Manifest & Mobile Theme -->
-  <meta name="theme-color" content="#0f172a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>LEKHA (लेखा) - Smart Kirana Retail OS & Billing Suite</title>
+  <meta name="description" content="भारत के किराना स्टोर्स के लिए आधुनिक मल्टी-पेज बिलिंग, 3D शेल्फ, AI पर्ची स्कैनर और डिजिटल बहीखाता।">
 
-  <!-- Google Fonts: Poppins -->
+  <!-- Google Fonts: Plus Jakarta Sans & Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="./style.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css?v=3">
 </head>
 <body>
 
-  <!-- Top Application Header -->
-  <header class="app-header">
-    <div class="header-top">
-      <div class="logo-area">
-        <div class="logo-icon">ल</div>
-        <div class="logo-text">
-          <h1>LEKHA</h1>
-          <p>किराना बिलिंग & डिजिटल बहीखाता</p>
+  <!-- =======================================================
+       TOPBAR & MULTI-PAGE NAVIGATION
+       ======================================================= -->
+  <header class="app-topbar">
+    <div class="topbar-inner">
+      
+      <!-- Brand Logo & Identity -->
+      <a href="#dashboard" class="brand-identity" onclick="window.lekhaApp.navigateTo('dashboard')">
+        <div class="brand-icon-box">ल</div>
+        <div class="brand-title-wrap">
+          <h1>LEKHA <span class="hindi-tag">लेखा OS</span></h1>
+          <p>स्मार्ट किराना बिलिंग & डिजिटल बहीखाता</p>
         </div>
-      </div>
-      <div style="text-align: right;">
-        <div class="offline-badge" id="backendStatusBadge">
-          <span>🟢 बैकएंड कनेक्टेड (Live REST API)</span>
-        </div>
-        <div id="headerDate" style="font-size: 11px; color: #94a3b8; margin-top: 4px;"></div>
-      </div>
-    </div>
+      </a>
 
-    <!-- 3 Roles Login / Switcher Bar -->
-    <div class="role-bar">
-      <button class="role-btn active" data-role="shopkeeper" onclick="window.lekhaApp.switchRole('shopkeeper')">
-        🏪 दुकानदार (Kirana)
-      </button>
-      <button class="role-btn" data-role="customer" onclick="window.lekhaApp.switchRole('customer')">
-        🛒 ग्राहक (Customer)
-      </button>
-      <button class="role-btn" data-role="wholesaler" onclick="window.lekhaApp.switchRole('wholesaler')">
-        📦 थोक व्यापारी (Wholesale)
-      </button>
+      <!-- Main Navigation Pages (The Core Multi-Page Experience) -->
+      <nav class="page-nav-tabs" id="mainNavTabs">
+        <button type="button" class="nav-tab-item active" data-page="dashboard" onclick="window.lekhaApp.navigateTo('dashboard')">
+          <span class="icon">📊</span>
+          <span>डैशबोर्ड</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="billing" onclick="window.lekhaApp.navigateTo('billing')">
+          <span class="icon">⚡</span>
+          <span>1-हाथ बिलिंग</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="shelf" onclick="window.lekhaApp.navigateTo('shelf')">
+          <span class="icon">📦</span>
+          <span>3D स्टोर शेल्फ</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="ocr" onclick="window.lekhaApp.navigateTo('ocr')">
+          <span class="icon">📸</span>
+          <span>AI पर्ची स्कैनर</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="customer" onclick="window.lekhaApp.navigateTo('customer')">
+          <span class="icon">🛒</span>
+          <span>ग्राहक QR</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="khata" onclick="window.lekhaApp.navigateTo('khata')">
+          <span class="icon">📒</span>
+          <span>बहीखाता</span>
+          <span class="badge-count" id="navKhataPendingCount">4</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="wholesaler" onclick="window.lekhaApp.navigateTo('wholesaler')">
+          <span class="icon">🚚</span>
+          <span>थोक रीऑर्डर</span>
+          <span class="badge-count" id="navLowStockCount">5</span>
+        </button>
+        <button type="button" class="nav-tab-item" data-page="swap" onclick="window.lekhaApp.navigateTo('swap')">
+          <span class="icon">🔄</span>
+          <span>3-4 KM स्टॉक स्वैप</span>
+          <span class="badge-count" style="background:#ea580c;" id="navSwapMatchCount">3-4 KM</span>
+        </button>
+      </nav>
+
+      <!-- Right Controls: Role & Offline Sync Status -->
+      <div class="topbar-actions">
+        <div class="status-pill" id="backendStatusBadge">
+          <div class="indicator-dot"></div>
+          <span id="backendStatusText">REST API + ऑफ़लाइन तैयार</span>
+        </div>
+
+        <select class="role-dropdown-btn" id="roleSelector" onchange="window.lekhaApp.switchRole(this.value)">
+          <option value="shopkeeper">🏪 दुकानदार (Kirana)</option>
+          <option value="customer">🛒 ग्राहक (Customer)</option>
+          <option value="wholesaler">📦 थोक व्यापारी (Wholesale)</option>
+        </select>
+      </div>
+
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="main-wrapper">
 
-    <!-- ========================================== -->
-    <!-- PORTAL 1: 🏪 SHOPKEEPER (दुकानदार)       -->
-    <!-- ========================================== -->
-    <section id="portalShopkeeper" class="tab-content active">
+  <!-- =======================================================
+       MAIN APPLICATION VIEWPORT
+       ======================================================= -->
+  <main class="app-viewport">
 
-      <!-- Stats Overview -->
-      <div class="stats-banner">
-        <div class="stat-box">
-          <div class="label">आज की कुल बिक्री</div>
-          <div class="val" id="statTotalSales" style="color: #16a34a;">₹0</div>
+    <!-- =====================================================
+         PAGE 1: 📊 DASHBOARD & STORE OVERVIEW
+         ===================================================== -->
+    <section class="page-view active" id="page-dashboard">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>📊 स्टोर परफॉर्मेंस डैशबोर्ड</h2>
+          <p id="dashboardDateText">आज की लाइव बिक्री, इन्वेंटरी अलर्ट और रीसेंट बिल</p>
         </div>
-        <div class="stat-box">
-          <div class="label">आज के कुल बिल</div>
-          <div class="val" id="statTotalBills">0</div>
-        </div>
-        <div class="stat-box">
-          <div class="label">कम स्टॉक चेतावनी</div>
-          <div class="val" id="statLowStock" style="color: #ef4444;">0 सामान</div>
-        </div>
-        <div class="stat-box" id="statDeadStockBox" onclick="window.lekhaApp.switchSubTab('swap')" style="cursor: pointer;" title="3-4 KM में फंसा माल बेचें">
-          <div class="label">फंसा माल (डेड स्टॉक)</div>
-          <div class="val" id="statDeadStock" style="color: #ea580c;">₹0</div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-primary" onclick="window.lekhaApp.navigateTo('billing')">
+            <span>⚡ नया बिल बनाएं (F2)</span>
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="window.lekhaApp.navigateTo('ocr')">
+            <span>📸 AI पर्ची स्कैन</span>
+          </button>
         </div>
       </div>
 
-      <!-- Quick Action Buttons for Busy Kirana Owner (Big Touch Targets) -->
-      <div class="big-action-grid">
-        <div class="big-btn" id="btnOpenOcrScanner" onclick="window.lekhaApp.openOcrModal()" style="cursor: pointer;">
-          <div class="icon" style="background: #eff6ff; color: #2563eb;">📸</div>
+      <!-- Top 4 Metric Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-card-top">
+            <span class="label">आज की कुल बिक्री</span>
+            <div class="metric-icon-circle">₹</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="dashSalesValue">₹18,450</span>
+            <span class="metric-badge positive">+14.2%</span>
+          </div>
+          <div class="metric-subtitle">कल की तुलना में ₹2,300 अधिक</div>
+        </div>
+
+        <div class="metric-card green">
+          <div class="metric-card-top">
+            <span class="label">आज के कुल बिल (Bills)</span>
+            <div class="metric-icon-circle">🧾</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="dashBillsValue">42</span>
+            <span class="metric-badge positive">तेज़ गति</span>
+          </div>
+          <div class="metric-subtitle">औसत बिलिंग समय: 22 सेकंड / ग्राहक</div>
+        </div>
+
+        <div class="metric-card amber">
+          <div class="metric-card-top">
+            <span class="label">कम स्टॉक अलर्ट (Low Stock)</span>
+            <div class="metric-icon-circle">⚠️</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="dashLowStockValue">5</span>
+            <span class="metric-badge alert">रीऑर्डर जरूरी</span>
+          </div>
+          <div class="metric-subtitle">चना दाल, तेल, कोलगेट का स्टॉक खत्म होने वाला है</div>
+        </div>
+
+                <div class="metric-card orange" id="statDeadStockBox" style="cursor: pointer; border-left: 4px solid #ea580c;" onclick="window.lekhaApp.navigateTo('swap')">
+          <div class="metric-card-top">
+            <span class="label">फंसा माल (3-4 KM एक्सचेंज)</span>
+            <div class="metric-icon-circle" style="background: rgba(234, 88, 12, 0.15); color: #ea580c;">🔄</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="statDeadStock" style="color: #ea580c;">₹0</span>
+            <span class="metric-badge alert" style="background: #fff7ed; color: #ea580c;">0% घाटा</span>
+          </div>
+          <div class="metric-subtitle" id="dashDeadStockSubtitle">3-4 KM दुकानों को थोक भाव पर ट्रांसफर करें</div>
+        </div>
+
+        <div class="metric-card purple">
+          <div class="metric-card-top">
+            <span class="label">बकाया उधार खाता (Udhaar Khata)</span>
+            <div class="metric-icon-circle">📒</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value" id="dashKhataValue">₹6,400</span>
+            <span class="metric-badge alert">8 ग्राहक</span>
+          </div>
+          <div class="metric-subtitle">1-क्लिक WhatsApp तगादा उपलब्ध</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Launcher Grid -->
+      <div class="dashboard-actions-grid">
+        <div class="quick-action-tile" onclick="window.lekhaApp.navigateTo('billing')">
+          <div class="action-icon">⚡</div>
           <div>
-            <div class="title">AI पर्ची से बिल बनाएं</div>
-            <div class="sub">हाथ से लिखी पर्ची स्कैन करें</div>
+            <h4>1-हाथ से फास्ट बिलिंग</h4>
+            <p>0.5kg, 250g के त्वरित चिप्स से 20 सेकंड में बिल</p>
           </div>
         </div>
 
-        <div class="big-btn" id="btnOpenQrScanner" onclick="window.lekhaApp.openQrScanModal()" style="cursor: pointer;">
-          <div class="icon" style="background: #f0fdf4; color: #16a34a;">📱</div>
+        <div class="quick-action-tile green" onclick="window.lekhaApp.navigateTo('shelf')">
+          <div class="action-icon">📦</div>
           <div>
-            <div class="title">ग्राहक का QR स्कैन करें</div>
-            <div class="sub">1 सेकंड में कार्ट लोड करें</div>
+            <h4>3D स्टोर शेल्फ विजुअलाइज़र</h4>
+            <p>दुकान के रैक का 3D मैप देखें और 1-क्लिक में भरें</p>
+          </div>
+        </div>
+
+        <div class="quick-action-tile amber" onclick="window.lekhaApp.navigateTo('ocr')">
+          <div class="action-icon">📸</div>
+          <div>
+            <h4>AI हस्तलिखित पर्ची स्कैनर</h4>
+            <p>ग्राहक की लिखी पर्ची से ऑटोमेटिक बिल बनाएं</p>
+          </div>
+        </div>
+
+        <div class="quick-action-tile purple" onclick="window.lekhaApp.navigateTo('wholesaler')">
+          <div class="action-icon">💬</div>
+          <div>
+            <h4>WhatsApp थोक रीऑर्डर</h4>
+            <p>सप्लायर को 1-क्लिक में माल का ऑर्डर भेजें</p>
           </div>
         </div>
       </div>
 
-      <!-- 3-4 KM Local Kirana Swap Smart Alert -->
-      <div class="swap-quick-alert" id="swapDeadStockAlert" onclick="window.lekhaApp.switchSubTab('swap')" style="display: flex; align-items: center; justify-content: space-between; background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; cursor: pointer;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="font-size: 26px;">🔄</div>
-          <div>
-            <div style="font-weight: 700; font-size: 13px; color: #9a3412;">
-              पास-पड़ोस किराना एक्सचेंज (3-4 KM नो-लॉस नेटवर्क)
+      <!-- Two-Column Section: Hourly Sales Trend & Recent Bills -->
+      <div class="dashboard-columns">
+        
+        <!-- Hourly Peak Sales Graph (Pure CSS) -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📈</span>
+              <span>आज का बिलिंग फ्लो (घंटे अनुसार बिक्री)</span>
             </div>
-            <div style="font-size: 11px; color: #c2410c;" id="swapAlertSubtext">
-              दुकान का फंसा हुआ माल नजदीकी दुकानों को थोक खरीद भाव पर बेचें • 0% नुकसान
+            <span style="font-size: 11px; color: var(--text-muted);">सुबह 8:00 - रात 10:00</span>
+          </div>
+
+          <div class="sales-chart-bars">
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill" style="height: 35%;"></div>
+              <span class="chart-bar-label">8 AM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill highlight" style="height: 75%;"></div>
+              <span class="chart-bar-label">10 AM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill highlight" style="height: 85%;"></div>
+              <span class="chart-bar-label">12 PM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill" style="height: 45%;"></div>
+              <span class="chart-bar-label">2 PM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill" style="height: 55%;"></div>
+              <span class="chart-bar-label">4 PM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill highlight" style="height: 95%;"></div>
+              <span class="chart-bar-label">7 PM</span>
+            </div>
+            <div class="chart-bar-col">
+              <div class="chart-bar-fill highlight" style="height: 90%;"></div>
+              <span class="chart-bar-label">9 PM</span>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:14px; font-size:12px; color:var(--text-secondary);">
+            <span>🔥 पीक रश ऑवर्स: सुबह 10-12 और शाम 7-9 बजे</span>
+            <span style="color:#34d399; font-weight:700;">कुल 42 बिल</span>
+          </div>
+        </div>
+
+        <!-- Recent Bills Transaction Feed -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📜</span>
+              <span>हाल के बिल (Recent Invoices)</span>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="window.lekhaApp.navigateTo('billing')">
+              + नया बिल
+            </button>
+          </div>
+
+          <div class="recent-bills-list" id="dashboardRecentBills">
+            <!-- Dynamic recent bills injected via JS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 2: ⚡ 1-HAND POS BILLING COUNTER
+         ===================================================== -->
+    <section class="page-view" id="page-billing">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>⚡ 1-हाथ से त्वरित POS बिलिंग काउंटर</h2>
+          <p>30 सेकंड से कम में बिल तैयार, ऑटो-स्टॉक डिडक्शन और डिजिटल थर्मल रसीद</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-secondary" onclick="window.lekhaApp.navigateTo('ocr')">
+            <span>📸 AI पर्ची से लोड करें</span>
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="window.lekhaApp.navigateTo('customer')">
+            <span>📱 ग्राहक QR स्कैन</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pos-workspace-grid">
+        
+        <!-- Left: Product Catalog & Search Filter -->
+        <div class="catalog-area-wrap">
+          <div class="catalog-filter-bar">
+            <div class="search-box-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="catalogSearchInput" placeholder="सामान खोजें (उदा. बासमती, तेल, चीनी, मैगी)..." oninput="window.lekhaApp.filterCatalog(this.value)">
+            </div>
+            <div class="category-pills-row" id="catalogCategoryPills">
+              <button type="button" class="cat-pill-btn active" data-cat="all" onclick="window.lekhaApp.filterCategory('all')">सभी (All)</button>
+              <button type="button" class="cat-pill-btn" data-cat="grains" onclick="window.lekhaApp.filterCategory('grains')">दालें व अनाज</button>
+              <button type="button" class="cat-pill-btn" data-cat="oils" onclick="window.lekhaApp.filterCategory('oils')">तेल व मसाले</button>
+              <button type="button" class="cat-pill-btn" data-cat="snacks" onclick="window.lekhaApp.filterCategory('snacks')">बिस्कुट व स्नैक्स</button>
+              <button type="button" class="cat-pill-btn" data-cat="household" onclick="window.lekhaApp.filterCategory('household')">घरेलू व साबुन</button>
+            </div>
+          </div>
+
+          <!-- Products Catalog Grid -->
+          <div class="products-catalog-grid" id="posProductCatalogGrid">
+            <!-- Dynamic product cards populated via JS -->
+          </div>
+        </div>
+
+        <!-- Right: Active Bill Dock & Terminal -->
+        <div class="pos-billing-terminal">
+          <div class="terminal-title-row">
+            <h3>
+              <span>🧾</span>
+              <span>सक्रिय बिल (Active Bill)</span>
+            </h3>
+            <span class="status-pill" style="font-size: 11px;">1-हाथ मोड चालू</span>
+          </div>
+
+          <!-- Selected Item Weight Adjuster (Forgiving Quantities) -->
+          <div class="active-item-adjuster" id="posActiveItemAdjuster">
+            <div class="adjuster-item-header">
+              <strong id="posAdjusterItemName">बासमती चावल (Basmati Rice)</strong>
+              <span id="posAdjusterItemRate">₹70 / kg</span>
+            </div>
+
+            <div class="forgiving-chips-label">किराना त्वरित मात्रा चिप्स (1-टैप जोड़ें):</div>
+            <div class="forgiving-chips-grid">
+              <button type="button" class="qty-preset-chip" onclick="window.lekhaApp.setAdjusterQty(0.25)">+250g</button>
+              <button type="button" class="qty-preset-chip" onclick="window.lekhaApp.setAdjusterQty(0.5)">+500g</button>
+              <button type="button" class="qty-preset-chip active" onclick="window.lekhaApp.setAdjusterQty(1)">1 kg</button>
+              <button type="button" class="qty-preset-chip" onclick="window.lekhaApp.setAdjusterQty(2)">2 kg</button>
+              <button type="button" class="qty-preset-chip" onclick="window.lekhaApp.setAdjusterQty(5)">5 kg</button>
+            </div>
+
+            <div class="quantity-stepper-row">
+              <button type="button" class="stepper-btn" onclick="window.lekhaApp.stepQty(-0.5)">−</button>
+              <input type="number" id="posAdjusterQtyInput" class="stepper-input" value="1" step="0.25" min="0.1" oninput="window.lekhaApp.onManualQtyChange(this.value)">
+              <button type="button" class="stepper-btn" onclick="window.lekhaApp.stepQty(+0.5)">+</button>
+              <button type="button" class="btn btn-primary btn-sm" style="height:36px; padding:0 14px;" onclick="window.lekhaApp.addItemToActiveBill()">
+                ➕ बिल में जोड़ें
+              </button>
+            </div>
+          </div>
+
+          <!-- Items in Current Bill -->
+          <div class="terminal-items-list" id="posActiveBillItemsList">
+            <!-- Dynamic cart items list -->
+          </div>
+
+          <!-- Customer Name & Phone Input -->
+          <div class="bill-customer-bar">
+            <input type="text" id="posCustomerNameInput" class="bill-input-field" placeholder="ग्राहक नाम (उदा. रमेश)">
+            <input type="tel" id="posCustomerPhoneInput" class="bill-input-field" placeholder="मोबाइल नंबर (WhatsApp)">
+          </div>
+
+          <!-- Payment Mode Selection -->
+          <div class="payment-modes-grid" id="posPaymentModesRow">
+            <button type="button" class="pay-mode-btn active" data-mode="cash" onclick="window.lekhaApp.setPaymentMode('cash')">
+              <span>💵</span>
+              <span>नकद (Cash)</span>
+            </button>
+            <button type="button" class="pay-mode-btn" data-mode="upi" onclick="window.lekhaApp.setPaymentMode('upi')">
+              <span>📲</span>
+              <span>UPI QR</span>
+            </button>
+            <button type="button" class="pay-mode-btn" data-mode="khata" onclick="window.lekhaApp.setPaymentMode('khata')">
+              <span>📒</span>
+              <span>उधार (Khata)</span>
+            </button>
+          </div>
+
+          <!-- Grand Total Summary -->
+          <div class="bill-summary-strip">
+            <span class="total-label">कुल भुगतान राशि:</span>
+            <span class="grand-total" id="posGrandTotalAmount">₹0</span>
+          </div>
+
+          <button type="button" class="btn btn-success btn-complete-bill" onclick="window.lekhaApp.completeAndPrintBill()">
+            <span>⚡ बिल पूरा करें & रसीद प्रिंट करें (F9)</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 3: 📦 3D SMART STORE SHELVES
+         ===================================================== -->
+    <section class="page-view" id="page-shelf">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>📦 3D किराना स्टोर शेल्फ विजुअलाइज़र</h2>
+          <p>दुकान के भौतिक रैक का 3D दृश्य, रियल-टाइम स्टॉक भराव और 1-क्लिक रीफिलिंग</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-primary" onclick="window.lekhaApp.refillAllLowStock()">
+            <span>📦 सभी खाली रैक भरें (+10kg)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shelf-studio-container">
+        
+        <!-- 3D Canvas Box -->
+        <div class="canvas-card-wrapper">
+          <div class="canvas-toolbar">
+            <div class="shelf-legend">
+              <div class="legend-tag">
+                <span class="color-box" style="background: #10b981;"></span>
+                <span>पर्याप्त स्टॉक (&gt;10)</span>
+              </div>
+              <div class="legend-tag">
+                <span class="color-box" style="background: #f59e0b;"></span>
+                <span>कम स्टॉक (3-10)</span>
+              </div>
+              <div class="legend-tag">
+                <span class="color-box" style="background: #ef4444;"></span>
+                <span>खत्म होने वाला (&lt;3)</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              🖱️ माउस या उंगली से पकड़कर घुमाएं | रैक पर क्लिक करके विवरण देखें
+            </div>
+          </div>
+
+          <canvas id="shelfCanvas" width="900" height="480"></canvas>
+        </div>
+
+        <!-- Shelf Inspection Drilldown Panel -->
+        <div class="shelf-inspect-panel">
+          <div class="inspect-header">
+            <h3 id="shelfInspectTitle">रैक 1: अनाज व दालें (Grains)</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">इस रैक में रखे सामान की वर्तमान स्थिति</p>
+          </div>
+
+          <div class="inspect-items-list" id="shelfInspectItemsList">
+            <!-- Injected dynamically on rack click -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 4: 📸 AI HANDWRITTEN SLIP SCANNER
+         ===================================================== -->
+    <section class="page-view" id="page-ocr">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>📸 AI हस्तलिखित किराना पर्ची स्कैनर</h2>
+          <p>ग्राहक की हाथ से लिखी हिंदी/अंग्रेजी पर्ची को 1 सेकंड में पढ़कर बिल में बदलें</p>
+        </div>
+      </div>
+
+      <div class="ocr-studio-layout">
+        
+        <!-- Scanner Viewfinder Stage -->
+        <div class="ocr-scanner-stage">
+          <div class="scanner-viewfinder">
+            <div class="scanner-laser"></div>
+            <div class="viewfinder-content">
+              <div class="slip-icon">📄</div>
+              <h4 id="ocrStatusHeading">AI स्कैनर एक्टिवेटेड</h4>
+              <p id="ocrStatusSub">हस्तलिखित पर्ची का विश्लेषण जारी है...</p>
+            </div>
+          </div>
+
+          <div class="sample-slips-label">तुरंत टेस्ट करने के लिए असली किराना पर्ची चुनें:</div>
+          <div class="sample-slips-row">
+            <button type="button" class="sample-slip-btn active" onclick="window.lekhaApp.loadSampleSlip(0)">
+              <strong>पर्ची #1 (रमेश जी):</strong>
+              <div>2kg बासमती चावल, 500g चीनी, तेल 1L</div>
+            </button>
+            <button type="button" class="sample-slip-btn" onclick="window.lekhaApp.loadSampleSlip(1)">
+              <strong>पर्ची #2 (सुमन दीदी):</strong>
+              <div>1kg अरहर दाल, 2 पैकेट मैगी, बिस्कुट</div>
+            </button>
+            <button type="button" class="sample-slip-btn" onclick="window.lekhaApp.loadSampleSlip(2)">
+              <strong>पर्ची #3 (राजेश भाई):</strong>
+              <div>5kg आशीर्वाद आटा, हल्दी 100g, नमक</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- OCR Extracted Results Table -->
+        <div class="ocr-results-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">📋 AI द्वारा पहचानी गई वस्तुएं</h3>
+            <span class="confidence-badge">98.4% मैच एक्यूरेसी</span>
+          </div>
+
+          <table class="ocr-result-table">
+            <thead>
+              <tr>
+                <th>पर्ची में लिखा सामान</th>
+                <th>मात्रा (Qty)</th>
+                <th>दुकान रेट</th>
+                <th>कुल</th>
+              </tr>
+            </thead>
+            <tbody id="ocrExtractedItemsBody">
+              <!-- Dynamically populated OCR items -->
+            </tbody>
+          </table>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <span style="font-size:13px; color:var(--text-secondary);">अनुमानित कुल रकम:</span>
+            <span style="font-size:22px; font-weight:800; color:#34d399;" id="ocrTotalAmount">₹287</span>
+          </div>
+
+          <button type="button" class="btn btn-primary" style="width:100%; height:48px;" onclick="window.lekhaApp.transferOcrToPosBill()">
+            <span>⚡ इस पर्ची को सीधे POS बिलिंग में लोड करें</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 5: 🛒 CUSTOMER QR SELF-SERVICE KIOSK
+         ===================================================== -->
+    <section class="page-view" id="page-customer">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>🛒 ग्राहक सेल्फ-सर्विस QR कार्ट कियोस्क</h2>
+          <p>भीड़ के समय ग्राहक खुद सामान चुनकर QR कोड बनाता है, दुकानदार 1 सेकंड में स्कैन करता है</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-success" onclick="window.lekhaApp.simulateShopkeeperScan()">
+            <span>📲 दुकानदार काउंटर पर यह QR स्कैन करें</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="customer-kiosk-layout">
+        
+        <!-- Left: Customer Product Selector & Cart List -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🛍️</span>
+              <span>दुकान का सामान चुनें और झोले में डालें</span>
+            </div>
+            <span style="font-size:12px; color:#34d399; font-weight:700;">बिना इंटरनेट के भी चलता है</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:10px; margin-bottom:18px;" id="customerKioskProductGrid">
+            <!-- Dynamic customer products -->
+          </div>
+
+          <h4 style="font-size:14px; margin-bottom:10px; color:#fff;">📋 आपका डिजिटल झोला (Shopping Bag):</h4>
+          <div class="terminal-items-list" id="customerCartItemsList" style="max-height:160px;">
+            <!-- Cart items -->
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+            <span style="font-size:13px; color:var(--text-secondary);">झोले की कुल रकम:</span>
+            <span style="font-size:20px; font-weight:800; color:#34d399;" id="customerCartTotal">₹0</span>
+          </div>
+        </div>
+
+        <!-- Right: Offline QR Code Generator Box -->
+        <div class="qr-generator-panel">
+          <h3 style="font-size:17px; font-weight:800; color:#fff;">📱 आपका डिजिटल टोकन QR</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-top:4px;">
+            इस QR कोड को काउंटर पर दुकानदार को दिखाएं
+          </p>
+
+          <div class="qr-code-display-box" id="customerQrContainer">
+            <!-- Vector SVG QR generated dynamically -->
+          </div>
+
+          <div class="qr-instruction-text">
+            ⚡ <strong>जीरो इंटरनेट आवश्यकता:</strong> पूरा कार्ट डेटा इसी QR कोड के अंदर एन्कोड है। काउंटर पर 1 बीप में बिल बन जाएगा!
+          </div>
+
+          <button type="button" class="btn btn-primary" style="width:100%; margin-top:16px;" onclick="window.lekhaApp.simulateShopkeeperScan()">
+            <span>📷 दुकानदार द्वारा स्कैन टेस्ट करें</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 6: 📒 DIGITAL BAHI KHATA & UDHAAR LEDGER
+         ===================================================== -->
+    <section class="page-view" id="page-khata">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>📒 डिजिटल बहीखाता एवं उधार लेजर</h2>
+          <p>नियमित ग्राहकों का खाता हिसाब, क्रेडिट लिमिट और 1-क्लिक WhatsApp तगादा</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-primary" onclick="window.lekhaApp.openNewKhataCustomerModal()">
+            <span>+ नया खाता ग्राहक जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Khata Metric Summary -->
+      <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom:20px;">
+        <div class="metric-card amber">
+          <div class="metric-card-top">
+            <span class="label">मार्केट में कुल बकाया उधार</span>
+            <div class="metric-icon-circle">📒</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value">₹6,400</span>
+          </div>
+          <div class="metric-subtitle">8 ग्राहकों से वसूली बाकी</div>
+        </div>
+
+        <div class="metric-card green">
+          <div class="metric-card-top">
+            <span class="label">इस महीने जमा हुआ उधार</span>
+            <div class="metric-icon-circle">✅</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value">₹14,250</span>
+          </div>
+          <div class="metric-subtitle">92% रिकवरी रेट</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-top">
+            <span class="label">कुल खाता ग्राहक</span>
+            <div class="metric-icon-circle">👥</div>
+          </div>
+          <div class="metric-value-row">
+            <span class="metric-value">12</span>
+          </div>
+          <div class="metric-subtitle">विश्वसनीय मोहल्ले वाले ग्राहक</div>
+        </div>
+      </div>
+
+      <!-- Khata Cards Grid -->
+      <div class="khata-grid-layout" id="khataCustomersGrid">
+        <!-- Dynamic Khata cards populated via JS -->
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         PAGE 7: 🚚 WHOLESALER PORTAL & REORDER LIST
+         ===================================================== -->
+    <section class="page-view" id="page-wholesaler">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <h2>🚚 थोक सप्लायर पोर्टल व ऑटो-रीऑर्डर शीट</h2>
+          <p>कम स्टॉक वाले सामान की सीधी WhatsApp सूची और थोक माल डिस्पैच ट्रैकर</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-success" onclick="window.lekhaApp.copyWhatsappReorderText()">
+            <span>💬 WhatsApp पर रीऑर्डर भेजें</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="wholesaler-container">
+        
+        <!-- Low Stock Auto Reorder List -->
+        <div class="reorder-sheet-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">📋 रीऑर्डर आवश्यकता सूची (Low Stock Sheet)</h3>
+            <span class="stock-indicator-pill red" id="reorderItemsCountBadge">5 सामान कम</span>
+          </div>
+
+          <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+            जिन सामानों का स्टॉक 5 यूनिट या उससे कम हो गया है, वे अपने आप इस लिस्ट में जुड़ जाते हैं।
+          </div>
+
+          <div class="reorder-items-list" id="reorderItemsList">
+            <!-- Dynamic reorder rows -->
+          </div>
+
+          <button type="button" class="btn btn-primary" style="width:100%; margin-top:18px;" onclick="window.lekhaApp.copyWhatsappReorderText()">
+            <span>💬 सप्लायर को WhatsApp पर ऑर्डर कॉपी व शेयर करें</span>
+          </button>
+        </div>
+
+        <!-- Wholesaler Supply Hub Simulator -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🏬</span>
+              <span>बालाजी ट्रेडर्स (थोक डिस्ट्रीब्यूटर हब)</span>
+            </div>
+            <span class="status-pill" style="font-size:10px;">सप्लायर पोर्टल</span>
+          </div>
+
+          <div style="background:rgba(30,41,59,0.5); padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); margin-bottom:18px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <strong>🏬 गुप्ता किराना स्टोर (#PO-9201)</strong>
+              <span class="stock-indicator-pill yellow">ऑर्डर पेंडिंग</span>
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+              दुकान से 5 आवश्यक वस्तुओं का रीऑर्डर प्राप्त हुआ है।
+            </p>
+            <button type="button" class="btn btn-success" style="width:100%;" onclick="window.lekhaApp.dispatchWholesalerSupply()">
+              <span>🚚 माल भेजा गया (Mark Dispatched & Restock)</span>
+            </button>
+          </div>
+
+          <h4 style="font-size:13px; color:#fff; margin-bottom:8px;">📦 थोक सप्लाई कैटलॉग दरें:</h4>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:rgba(15,23,42,0.6); padding:10px 12px; border-radius:8px; display:flex; justify-content:space-between; font-size:12px;">
+              <span>बासमती चावल (50kg बोरी)</span>
+              <strong style="color:#60a5fa;">₹3,100 / बोरी</strong>
+            </div>
+            <div style="background:rgba(15,23,42,0.6); padding:10px 12px; border-radius:8px; display:flex; justify-content:space-between; font-size:12px;">
+              <span>फॉर्च्यून तेल (15L टिन)</span>
+              <strong style="color:#60a5fa;">₹1,850 / टिन</strong>
+            </div>
+            <div style="background:rgba(15,23,42,0.6); padding:10px 12px; border-radius:8px; display:flex; justify-content:space-between; font-size:12px;">
+              <span>पारले-जी बिस्कुट (पेटी 48 पीस)</span>
+              <strong style="color:#60a5fa;">₹420 / कार्टन</strong>
             </div>
           </div>
         </div>
-        <button type="button" class="badge-pill" style="background: #ea580c; color: #fff; border: none; padding: 6px 12px; font-weight: 700; cursor: pointer;">
-          एक्सचेंज खोलें ➔
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PAGE 8: 🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM ZERO-LOSS STOCK SWAP)
+         ===================================================== -->
+    <section class="page-view" id="page-swap">
+      <div class="page-header-strip">
+        <div class="page-title-box">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="pulse-radar"></span>
+            <h2>🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Network)</h2>
+          </div>
+          <p>नजदीकी किराना दुकानों के साथ फंसा माल थोक खरीद भाव पर ट्रांसफर करें • 0% घाटा • 100% रिकवरी</p>
+        </div>
+        <div class="page-action-buttons">
+          <button type="button" class="btn btn-secondary" onclick="window.lekhaApp.shareSwapWhatsApp()">
+            <span>📲 WhatsApp पर शेयर करें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Explainer Banner -->
+      <div class="swap-explainer-banner">
+        <div class="explainer-icon">💡</div>
+        <div class="explainer-text">
+          <strong>किराना नो-लॉस एक्सचेंज क्या है?</strong><br>
+          जब किसी थोक कार्टन का सामान आपकी दुकान पर धीरे बिकता है या अटक जाता है, तो वह एक्सपायर होने का खतरा रहता है। 
+          LEKHA के इस सिस्टम से आप 3-4 KM के दायरे की नजदीकी किराना दुकानों को वही सामान 
+          <strong>उसी थोक खरीद भाव (Wholesale Cost Price)</strong> पर देकर अपनी 100% फंसी पूंजी वापस निकाल सकते हैं। 
+          <strong>न कोई नुकसान • न कोई बर्बादी!</strong>
+        </div>
+      </div>
+
+      <!-- Quick Recovery Stats Summary -->
+      <div class="swap-stats-row">
+        <div class="swap-stat-item">
+          <div class="s-label">दुकान में फंसी पूंजी (Dead Stock)</div>
+          <div class="s-val" id="swapLockedCapital" style="color: #ea580c;">₹0</div>
+        </div>
+        <div class="swap-stat-item">
+          <div class="s-label">नजदीकी मांग मैच (Matching Shops)</div>
+          <div class="s-val" id="swapMatchingCount" style="color: #2563eb;">0 दुकानें</div>
+        </div>
+        <div class="swap-stat-item">
+          <div class="s-label">सफलतापूर्वक रिकवर की गई रकम</div>
+          <div class="s-val" id="swapRecoveredAmount" style="color: #16a34a;">₹0</div>
+        </div>
+      </div>
+
+      <!-- Exchange Sub-Tabs -->
+      <div class="swap-nav-pills">
+        <button type="button" class="swap-pill-btn active" data-swaptab="liquidate" onclick="window.lekhaApp.switchSwapTab('liquidate')">
+          📤 मेरा फंसा माल निकालें (Liquidate Stock)
+        </button>
+        <button type="button" class="swap-pill-btn" data-swaptab="surplus" onclick="window.lekhaApp.switchSwapTab('surplus')">
+          📥 पड़ोस की दुकानों से थोक भाव पर लें (Nearby Surplus)
+        </button>
+        <button type="button" class="swap-pill-btn" data-swaptab="history" onclick="window.lekhaApp.switchSwapTab('history')">
+          📜 ट्रांसफर लेज़र (Recovery Ledger)
         </button>
       </div>
 
-      <!-- Sub-view 1: 1-Tap Fast Billing (⚡ अंगूठे से बिलिंग) -->
-      <div class="shop-tab-view active" data-view="billing">
-        <div class="lekha-card">
-          <div class="card-title-row">
-            <div class="card-title">
-              ⚡ 1-हाथ से त्वरित बिलिंग (Quick Billing)
-            </div>
-            <span class="badge-pill badge-blue">फास्ट मोड</span>
-          </div>
-
-          <!-- Quick Item Selection Grid -->
-          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
-            दुकान का सामान (टैप करके चुनें):
-          </div>
-          <div class="quick-items-grid" id="quickItemsGrid">
-            <!-- Dynamic quick item tiles -->
-          </div>
-
-          <!-- Bill Input Form -->
-          <form id="quickBillForm" onsubmit="event.preventDefault(); window.lekhaApp.submitSingleBill();">
-            <div class="form-input-group">
-              <label class="form-label">ग्राहक का नाम (वैकल्पिक)</label>
-              <input type="text" id="billCustName" class="form-input" placeholder="नगद ग्राहक (उदा. रमेश)">
-            </div>
-
-            <div class="form-row-3">
-              <div class="form-input-group">
-                <label class="form-label">सामान का नाम</label>
-                <input type="text" id="billItemName" class="form-input" placeholder="सामान चुनें या लिखें" required>
-              </div>
-
-              <div class="form-input-group">
-                <label class="form-label">मात्रा (Qty)</label>
-                <input type="number" step="0.25" id="billItemQty" class="form-input" value="1" oninput="window.lekhaApp.recalcBillAmount()" required>
-              </div>
-
-              <div class="form-input-group">
-                <label class="form-label">रेट ₹</label>
-                <input type="number" id="billItemRate" class="form-input" placeholder="0" oninput="window.lekhaApp.recalcBillAmount()" required>
-              </div>
-            </div>
-
-            <!-- Forgiving Quick Quantity Chips for Kirana -->
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
-              अक्सर बिकने वाली मात्रा (Quick Tap):
-            </div>
-            <div class="chip-row">
-              <button type="button" class="qty-chip active" data-val="1" onclick="window.lekhaApp.selectQtyChip(1, this)">1 kg / pkt</button>
-              <button type="button" class="qty-chip" data-val="0.5" onclick="window.lekhaApp.selectQtyChip(0.5, this)">आधा किलो (500g)</button>
-              <button type="button" class="qty-chip" data-val="0.25" onclick="window.lekhaApp.selectQtyChip(0.25, this)">पाव भर (250g)</button>
-              <button type="button" class="qty-chip" data-val="2" onclick="window.lekhaApp.selectQtyChip(2, this)">2 kg / pkt</button>
-              <button type="button" class="qty-chip" data-val="5" onclick="window.lekhaApp.selectQtyChip(5, this)">5 kg</button>
-            </div>
-
-            <!-- Total Calculation & Thumb-reachable Submit -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0 10px 0;">
-              <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">कुल रकम:</span>
-              <span id="billCalculatedTotal" style="font-size: 24px; font-weight: 800; color: #16a34a;">₹0</span>
-            </div>
-
-            <button type="submit" class="btn-primary">
-              💾 बिल पक्का करें (Add Sale)
-            </button>
-          </form>
+      <!-- Panel A: Liquidate My Dead Stock -->
+      <div class="swap-tab-panel active" id="swapTabLiquidate">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          आपकी दुकान का वह सामान जो पिछले कई हफ्तों से नहीं बिका है। इसे पास की उन दुकानों को बेचें जहाँ इसकी तुरंत मांग है:
+        </div>
+        <div id="swapMyDeadStockList">
+          <!-- Dynamic stagnant items to liquidate -->
         </div>
       </div>
 
-      <!-- Sub-view 2: 📦 3D Shop Shelf Model (दुकान का 3D शेल्फ) -->
-      <div class="shop-tab-view" data-view="shelf">
-        <div class="lekha-card">
-          <div class="card-title-row">
-            <div class="card-title">
-              🏬 दुकान का 3D शेल्फ व स्टॉक मॉडल
-            </div>
-            <span class="badge-pill badge-green">लाइव 3D रैक</span>
-          </div>
-          
-          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
-            दुकान के फिजिकल रैक को 3D में देखें। रंग देखकर तुरंत समझें कि कौन सा सामान खत्म होने वाला है।
-          </div>
-
-          <div class="shelf-canvas-container">
-            <canvas id="shelfCanvas" width="900" height="420"></canvas>
-            <div class="shelf-overlay-legend">
-              <div class="legend-item">
-                <span class="legend-dot" style="background: #10b981;"></span>
-                <span>हरा: भरपूर स्टॉक (>10)</span>
-              </div>
-              <div class="legend-item">
-                <span class="legend-dot" style="background: #f59e0b;"></span>
-                <span>पीला: कम बचा (3-10)</span>
-              </div>
-              <div class="legend-item">
-                <span class="legend-dot" style="background: #ef4444;"></span>
-                <span>लाल: तुरंत मंगाएं (&lt;3)</span>
-              </div>
-            </div>
-          </div>
+      <!-- Panel B: Nearby Surplus To Buy at Cost -->
+      <div class="swap-tab-panel" id="swapTabSurplus" style="display: none;">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          3-4 KM के दायरे की दुकानों के पास अतिरिक्त पड़ा माल, जो वे बिना किसी मुनाफे के सीधे <strong>थोक भाव</strong> पर दे रही हैं। 
+          आपको बड़ा थोक कार्टन खरीदने की ज़रूरत नहीं:
+        </div>
+        <div id="swapNearbySurplusList">
+          <!-- Dynamic surplus from other stores -->
         </div>
       </div>
 
-      <!-- Sub-view 3: 📋 रीऑर्डर शीट (Reorder Sheet for Wholesaler) -->
-      <div class="shop-tab-view" data-view="reorder">
-        <div class="lekha-card">
-          <div class="card-title-row">
-            <div class="card-title">
-              📋 रीऑर्डर शीट (कम स्टॉक व रुका हुआ माल)
-            </div>
-            <button class="btn-whatsapp" id="btnWhatsappReorder" onclick="window.lekhaApp.sendReorderToWhatsApp()">
-              📲 WhatsApp पर भेजें
-            </button>
-          </div>
-
-          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-            यह शीट खुद तय करती है कि कौन सा सामान तेज़ बिक रहा है और क्या मंगाना है, तथा कौन सा माल दुकान में फंसा हुआ है।
-          </div>
-
-          <div id="reorderListContainer">
-            <!-- Dynamic Reorder & Dead Stock Items -->
-          </div>
+      <!-- Panel C: Transfer Ledger -->
+      <div class="swap-tab-panel" id="swapTabHistory" style="display: none;">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          सफलतापूर्वक की गई नो-लॉस स्टॉक ट्रांसफर डील्स और रिकवर की गई पूंजी का रिकॉर्ड:
         </div>
-      </div>
-
-      <!-- Sub-view 4: 📜 आज के बिल (Today's Bills History) -->
-      <div class="shop-tab-view" data-view="bills">
-        <div class="lekha-card">
-          <div class="card-title-row">
-            <div class="card-title">
-              📜 आज के बने हुए बिल
-            </div>
-          </div>
-
-          <div class="lekha-table-box">
-            <table class="lekha-table">
-              <thead>
-                <tr>
-                  <th>बिल / समय</th>
-                  <th>ग्राहक</th>
-                  <th>सामान (मात्रा × भाव)</th>
-                  <th>रकम</th>
-                  <th>स्थिति</th>
-                </tr>
-              </thead>
-              <tbody id="todayBillsTbody">
-                <!-- Dynamic Bill rows -->
-              </tbody>
-            </table>
-            <div id="noBillsState" style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 13px;">
-              आज अभी तक कोई बिल नहीं बना है।
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sub-view 5: 🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Stock Swap) -->
-      <div class="shop-tab-view" data-view="swap">
-        <div class="lekha-card swap-hero-card">
-          <div class="card-title-row">
-            <div class="card-title">
-              <span class="pulse-radar"></span>
-              🔄 पास-पड़ोस किराना एक्सचेंज (3-4 KM Zero-Loss Network)
-            </div>
-            <span class="badge-pill badge-green">4 दुकानें सक्रिय (0.8 - 3.4 KM)</span>
-          </div>
-
-          <div class="swap-explainer-banner">
-            <div class="explainer-icon">💡</div>
-            <div class="explainer-text">
-              <strong>नो-लॉस (Zero-Loss) लिक्विडेशन:</strong><br>
-              थोक व्यापारी से लिया सामान यदि आपकी दुकान में नहीं बिक रहा, तो वह एक्सपायर होकर बर्बाद हो जाता है। 
-              LEKHA के इस सिस्टम से आप 3-4 KM के दायरे की नजदीकी किराना दुकानों को वही सामान 
-              <strong>उसी थोk खरीद भाव (Wholesale Cost Price)</strong> पर देकर अपनी 100% फंसी पूंजी वापस निकाल सकते हैं। 
-              <strong>न कोई नुकसान • न कोई बर्बादी!</strong>
-            </div>
-          </div>
-
-          <!-- Quick Recovery Stats Summary -->
-          <div class="swap-stats-row">
-            <div class="swap-stat-item">
-              <div class="s-label">दुकान में फंसी पूंजी (Dead Stock)</div>
-              <div class="s-val" id="swapLockedCapital" style="color: #ea580c;">₹0</div>
-            </div>
-            <div class="swap-stat-item">
-              <div class="s-label">नजदीकी मांग मैच (Matching Shops)</div>
-              <div class="s-val" id="swapMatchingCount" style="color: #2563eb;">0 दुकानें</div>
-            </div>
-            <div class="swap-stat-item">
-              <div class="s-label">सफलतापूर्वक रिकवर की गई रकम</div>
-              <div class="s-val" id="swapRecoveredAmount" style="color: #16a34a;">₹0</div>
-            </div>
-          </div>
-
-          <!-- Exchange Sub-Tabs -->
-          <div class="swap-nav-pills">
-            <button type="button" class="swap-pill-btn active" data-swaptab="liquidate" onclick="window.lekhaApp.switchSwapTab('liquidate')">
-              📤 मेरा फंसा माल निकालें (Liquidate Stock)
-            </button>
-            <button type="button" class="swap-pill-btn" data-swaptab="surplus" onclick="window.lekhaApp.switchSwapTab('surplus')">
-              📥 पड़ोस की दुकानों से थोक भाव पर लें (Nearby Surplus)
-            </button>
-            <button type="button" class="swap-pill-btn" data-swaptab="history" onclick="window.lekhaApp.switchSwapTab('history')">
-              📜 ट्रांसफर लेज़र (Recovery Ledger)
-            </button>
-          </div>
-
-          <!-- Panel A: Liquidate My Dead Stock -->
-          <div class="swap-tab-panel active" id="swapTabLiquidate">
-            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-              आपकी दुकान का वह सामान जो पिछले कई हफ्तों से नहीं बिका है। इसे पास की उन दुकानों को बेचें जहाँ इसकी तुरंत मांग है:
-            </div>
-            <div id="swapMyDeadStockList">
-              <!-- Dynamic stagnant items to liquidate -->
-            </div>
-          </div>
-
-          <!-- Panel B: Nearby Surplus To Buy at Cost -->
-          <div class="swap-tab-panel" id="swapTabSurplus" style="display: none;">
-            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-              3-4 KM के दायरे की दुकानों के पास अतिरिक्त पड़ा माल, जो वे बिना किसी मुनाफे के सीधे <strong>थोक भाव</strong> पर दे रही हैं। 
-              आपको बड़ा थोक कार्टन खरीदने की ज़रूरत नहीं:
-            </div>
-            <div id="swapNearbySurplusList">
-              <!-- Dynamic surplus from other stores -->
-            </div>
-          </div>
-
-          <!-- Panel C: Transfer Ledger -->
-          <div class="swap-tab-panel" id="swapTabHistory" style="display: none;">
-            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-              सफलतापूर्वक की गई नो-लॉस स्टॉक ट्रांसफर डील्स और रिकवर की गई पूंजी का रिकॉर्ड:
-            </div>
-            <div id="swapHistoryList">
-              <!-- Completed peer-to-peer zero-loss transactions -->
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- PORTAL 2: 🛒 CUSTOMER (ग्राहक)           -->
-    <!-- ========================================== -->
-    <section id="portalCustomer" class="tab-content">
-      <div class="lekha-card">
-        <div class="card-title-row">
-          <div class="card-title">
-            🛒 अपनी खरीदारी की लिस्ट बनाएं
-          </div>
-          <span class="badge-pill badge-green">घर बैठे कार्ट</span>
-        </div>
-
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-          घर से सामान चुनकर QR कोड बनाएं। दुकान पर जाकर सिर्फ QR कोड दिखाएं और बिना इंतज़ार किए सामान पाएं।
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-input-group">
-            <label class="form-label">सामान चुनें</label>
-            <select id="custItemSelect" class="form-input" onchange="window.lekhaApp.onCustomerSelectProduct(this.value)">
-              <!-- Dynamic Options -->
-            </select>
-          </div>
-
-          <div class="form-input-group">
-            <label class="form-label">मात्रा (Qty)</label>
-            <input type="number" step="0.25" id="custItemQty" class="form-input" value="1" min="0.25">
-          </div>
-        </div>
-
-        <!-- Loose Item Market Avg Rate Info Callout -->
-        <div id="custAvgRateInfo" style="margin-bottom: 14px;"></div>
-
-        <button type="button" id="btnAddCustomerCart" class="btn-primary" style="margin-bottom: 18px;" onclick="window.lekhaApp.addCustomerCartItem()">
-          ➕ लिस्ट में जोड़ें (Add to List)
-        </button>
-
-        <div style="font-weight: 700; font-size: 14px; margin-bottom: 10px;">
-          📋 आपकी खरीदारी लिस्ट (Shopping List):
-        </div>
-        <div id="customerCartContainer" style="margin-bottom: 20px;">
-          <!-- Dynamic Cart Items -->
-        </div>
-
-        <!-- Generated QR Code Wrapper -->
-        <div id="customerQrCodeWrapper" style="text-align: center; margin-top: 10px;">
-          <!-- SVG QR Code gets injected here -->
+        <div id="swapHistoryList">
+          <!-- Completed peer-to-peer zero-loss transactions -->
         </div>
       </div>
     </section>
-
-
-    <!-- ========================================== -->
-    <!-- PORTAL 3: 📦 WHOLESALER (थोक व्यापारी)   -->
-    <!-- ========================================== -->
-    <section id="portalWholesaler" class="tab-content">
-      <div class="lekha-card">
-        <div class="card-title-row">
-          <div class="card-title">
-            📦 थोक व्यापारी पोर्टल (Wholesaler Hub)
-          </div>
-          <span class="badge-pill badge-yellow">डिस्ट्रीब्यूटर</span>
-        </div>
-
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-          किराना दुकानों से आए हुए ऑर्डर्स को तुरंत देखें और सप्लाई डिस्पैच करें।
-        </div>
-
-        <div id="wholesalerIncomingOrders">
-          <!-- Incoming low-stock orders from Kirana store -->
-        </div>
-
-        <div style="margin-top: 24px;">
-          <h3 style="font-size: 15px; margin-bottom: 10px;">🚚 थोक सप्लाई कैटलॉग (Bulk Packs):</h3>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
-              <div style="font-weight: 700; font-size: 13px;">बासमती चावल (50kg कट्टा)</div>
-              <div style="font-size: 12px; color: #2563eb; font-weight: 600; margin: 4px 0;">थोक रेट: ₹3,100 / बोरी (₹62/kg)</div>
-              <button type="button" class="btn-primary" style="font-size: 11px; padding: 6px 10px; width: 100%; justify-content: center; margin-top: 6px;" onclick="window.lekhaApp.supplyWholesaleBulk('बासमती चावल (Basmati Rice)', 'kg', 50, 60, 70, 'grains')">
-                📦 दुकान में 50kg सप्लाई भेजें
-              </button>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
-              <div style="font-weight: 700; font-size: 13px;">फॉर्च्यून तेल (15L टिन)</div>
-              <div style="font-size: 12px; color: #2563eb; font-weight: 600; margin: 4px 0;">थोक रेट: ₹1,800 / टिन (₹120/L)</div>
-              <button type="button" class="btn-primary" style="font-size: 11px; padding: 6px 10px; width: 100%; justify-content: center; margin-top: 6px;" onclick="window.lekhaApp.supplyWholesaleBulk('फॉर्च्यून सोयाबीन तेल 1L', 'pkt', 15, 120, 135, 'oils')">
-                📦 दुकान में 15L सप्लाई भेजें
-              </button>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px;">
-              <div style="font-weight: 700; font-size: 13px;">पारले-जी बिस्कुट (पेटी 48 पीस)</div>
-              <div style="font-size: 12px; color: #2563eb; font-weight: 600; margin: 4px 0;">थोक रेट: ₹408 / पेटी (₹8.5/pc)</div>
-              <button type="button" class="btn-primary" style="font-size: 11px; padding: 6px 10px; width: 100%; justify-content: center; margin-top: 6px;" onclick="window.lekhaApp.supplyWholesaleBulk('पार्ले-जी बिस्कुट (Parle-G 10/-)', 'pkt', 48, 8.5, 10, 'snacks')">
-                📦 दुकान में 48 पीस सप्लाई भेजें
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Add New Wholesale Product Form -->
-        <div style="margin-top: 24px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
-          <h4 style="font-size: 14px; margin-bottom: 8px;">➕ दुकान में नया थोक माल जोड़ें (Add New Product)</h4>
-          <form id="wholesalerAddProductForm" onsubmit="event.preventDefault(); window.lekhaApp.addNewProductFromWholesaler();">
-            <div class="form-row-2">
-              <div class="form-input-group">
-                <label class="form-label">सामान का नाम</label>
-                <input type="text" id="wsNewItemName" class="form-input" placeholder="उदा. फॉर्च्यून कच्ची घानी 1L" required>
-              </div>
-              <div class="form-input-group">
-                <label class="form-label">कैटेगरी (रैक)</label>
-                <select id="wsNewItemCat" class="form-input">
-                  <option value="grains">अनाज व दालें (Grains)</option>
-                  <option value="oils">तेल, घी व मसाले (Oils & Spices)</option>
-                  <option value="household">साबुन व घरेलू सामान (Household)</option>
-                  <option value="snacks">बिस्कुट व स्नैक्स (Snacks)</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row-3">
-              <div class="form-input-group">
-                <label class="form-label">सप्लाई मात्रा</label>
-                <input type="number" id="wsNewItemQty" class="form-input" value="20" min="1" required>
-              </div>
-              <div class="form-input-group">
-                <label class="form-label">थोक खरीद भाव (₹)</label>
-                <input type="number" id="wsNewItemCost" class="form-input" placeholder="उदा. 120" required>
-              </div>
-              <div class="form-input-group">
-                <label class="form-label">दुकान का रेट (₹ MRP)</label>
-                <input type="number" id="wsNewItemRate" class="form-input" placeholder="उदा. 135" required>
-              </div>
-            </div>
-            <button type="submit" class="btn-primary" style="margin-top: 10px;">
-              📦 दुकान में नया माल स्टॉक करें
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reset / Test Data Helper -->
-    <div style="text-align: center; margin-top: 20px;">
-      <button id="btnResetSampleData" onclick="window.lekhaApp.resetAllData()" style="background: transparent; border: 1px dashed #cbd5e1; color: #94a3b8; padding: 6px 14px; border-radius: 20px; font-size: 11px; cursor: pointer;">
-        🔄 टेस्ट डेटा रीसेट करें (Reset Sample Data)
-      </button>
-    </div>
 
   </main>
 
 
-  <!-- ========================================== -->
-  <!-- MODAL: AI HANDWRITTEN SLIP SCANNER        -->
-  <!-- ========================================== -->
-  <div id="ocrModal" class="lekha-modal">
-    <div class="modal-sheet">
-      <button class="modal-close" onclick="window.lekhaApp.closeAllModals()">&times;</button>
-      <h3 style="font-size: 16px; margin-bottom: 12px;">📸 AI हस्तलिखित पर्ची स्कैनर</h3>
+  <!-- =======================================================
+       MODAL: THERMAL RECEIPT PRINT PREVIEW
+       ======================================================= -->
+  <div class="app-modal-overlay" id="thermalReceiptModal">
+    <div class="modal-dialog-box">
+      <button type="button" class="modal-close-btn" onclick="window.lekhaApp.closeModal('thermalReceiptModal')">✕</button>
 
-      <div class="ocr-scanner-box">
-        <div class="ocr-laser-line"></div>
-        <div style="font-size: 32px; margin-bottom: 8px;">📄</div>
-        <div style="font-weight: 700; font-size: 14px;">दुकानदार की पर्ची स्कैन हो रही है...</div>
-        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
-          AI हस्तलिखित हिंदी व अंग्रेजी पर्ची पढ़कर बिल बनाएगा
+      <div class="thermal-receipt-paper" id="receiptPaperContent">
+        <!-- Rendered invoice receipt -->
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn btn-primary" style="flex:1;" onclick="window.lekhaApp.printThermalReceipt()">
+          <span>🖨️ रसीद प्रिंट करें (Thermal Print)</span>
+        </button>
+        <button type="button" class="btn btn-secondary" style="flex:1;" onclick="window.lekhaApp.sendReceiptWhatsapp()">
+          <span>💬 WhatsApp रसीद भेजें</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       MODAL: ADD NEW KHATA CUSTOMER
+       ======================================================= -->
+  <div class="app-modal-overlay" id="newKhataModal">
+    <div class="modal-dialog-box">
+      <button type="button" class="modal-close-btn" onclick="window.lekhaApp.closeModal('newKhataModal')">✕</button>
+      <h3 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:16px;">➕ नया खाता ग्राहक जोड़ें</h3>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:18px;">
+        <div>
+          <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:4px;">ग्राहक का नाम</label>
+          <input type="text" id="newKhataName" class="bill-input-field" style="width:100%;" placeholder="उदा. सोनू भाई">
+        </div>
+        <div>
+          <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:4px;">मोबाइल नंबर (WhatsApp)</label>
+          <input type="tel" id="newKhataPhone" class="bill-input-field" style="width:100%;" placeholder="98XXXXXXXX">
+        </div>
+        <div>
+          <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:4px;">शुरुआती उधार रकम (₹)</label>
+          <input type="number" id="newKhataAmount" class="bill-input-field" style="width:100%;" value="0">
         </div>
       </div>
 
-      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
-        तुरंत टेस्ट करने के लिए सैंपल पर्ची चुनें:
-      </div>
-      <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-        <button type="button" class="sample-slip-btn" style="background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; font-weight:600; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:12px;" onclick="window.lekhaApp.processSampleSlip(0)">
-          📄 पर्ची 1 (रमेश: 2kg चावल, 500g चीनी, तेल)
-        </button>
-        <button type="button" class="sample-slip-btn" style="background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; font-weight:600; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:12px;" onclick="window.lekhaApp.processSampleSlip(1)">
-          📄 पर्ची 2 (सुमन: 1kg दाल, मैगी, बिस्कुट)
-        </button>
-      </div>
-
-      <div id="ocrExtractedResult"></div>
+      <button type="button" class="btn btn-primary" style="width:100%;" onclick="window.lekhaApp.saveNewKhataCustomer()">
+        <span>बहीखाता में सहेजें (Save)</span>
+      </button>
     </div>
   </div>
 
 
-  <!-- ========================================== -->
-  <!-- MODAL: SCAN CUSTOMER QR CODE               -->
-  <!-- ========================================== -->
-  <div id="qrScanModal" class="lekha-modal">
-    <div class="modal-sheet">
-      <button class="modal-close" onclick="window.lekhaApp.closeAllModals()">&times;</button>
-      <h3 style="font-size: 16px; margin-bottom: 12px;">📱 ग्राहक का QR कोड स्कैन</h3>
-
-      <div style="background: #0f172a; color: #fff; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 14px;">
-        <div style="font-size: 30px; margin-bottom: 6px;">📷</div>
-        <div style="font-weight: 700; font-size: 13px;">कैमरा स्कैनर एक्टिवेटेड</div>
-        <div style="font-size: 11px; color: #94a3b8;">ग्राहक के फोन का QR कोड फ्रेम में लाएं</div>
-      </div>
-
-      <div id="qrScanResultBox">
-        <!-- Results of scanned cart -->
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ========================================== -->
-  <!-- MODAL: 3D RACK DRILLDOWN & STOCK REFILL    -->
-  <!-- ========================================== -->
-  <div id="rackDetailsModal" class="lekha-modal">
-    <div class="modal-sheet">
-      <button class="modal-close" onclick="window.lekhaApp.closeAllModals()">&times;</button>
-      <h3 id="rackModalTitle" style="font-size: 16px; margin-bottom: 14px;">रैक का सामान</h3>
-      <div id="rackModalContent"></div>
-    </div>
-  </div>
-
+  <!-- =======================================================
+       TOAST NOTIFICATIONS CONTAINER
+       ======================================================= -->
 
   <!-- ========================================== -->
   <!-- MODAL: 🔄 ZERO-LOSS PEER-TO-PEER TRANSFER   -->
   <!-- ========================================== -->
   <div id="swapTransferModal" class="lekha-modal">
     <div class="modal-sheet">
-      <button class="modal-close" onclick="window.lekhaApp.closeAllModals()">&times;</button>
+      <button class="modal-close" onclick="window.lekhaApp.closeModal('swapTransferModal')">&times;</button>
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
         <span style="font-size: 26px;">🔄</span>
         <div>
@@ -619,7 +937,7 @@
           <div style="font-size: 11px; color: #166534; font-weight: 600;">तुरंत वापस मिलने वाली फंसी पूंजी:</div>
           <div style="font-size: 18px; font-weight: 800; color: #15803d;" id="swapModalTotalRecovery">₹0</div>
         </div>
-        <span class="badge-pill badge-green">100% रिकवरी</span>
+        <span class="badge-pill badge-green" style="background:#dcfce7;color:#15803d;padding:4px 8px;border-radius:12px;font-size:11px;font-weight:700;">100% रिकवरी</span>
       </div>
 
       <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">
@@ -630,55 +948,30 @@
       </div>
 
       <div style="display: flex; gap: 8px;">
-        <button type="button" id="btnConfirmSwapTransfer" class="btn-primary" style="flex: 2; justify-content: center;" onclick="window.lekhaApp.executeSwapTransfer()">
+        <button type="button" id="btnConfirmSwapTransfer" class="btn btn-primary" style="flex: 2; justify-content: center;" onclick="window.lekhaApp.executeSwapTransfer()">
           🤝 ट्रांसफर पक्का करें
         </button>
-        <button type="button" id="btnShareSwapWhatsapp" class="btn-whatsapp" style="flex: 1; justify-content: center;" onclick="window.lekhaApp.shareSwapWhatsApp()">
+        <button type="button" id="btnShareSwapWhatsapp" class="btn btn-secondary" style="flex: 1; justify-content: center; background: #25D366; color: #fff; border-color: #25D366;" onclick="window.lekhaApp.shareSwapWhatsApp()">
           📲 WhatsApp
         </button>
       </div>
     </div>
   </div>
+  <div class="app-toast-container" id="appToastContainer"></div>
 
 
-  <!-- ========================================== -->
-  <!-- THUMB-REACHABLE MOBILE BOTTOM NAVIGATION   -->
-  <!-- ========================================== -->
-  <nav class="mobile-nav-bar" id="mobileNavBar">
-    <button class="nav-item active" data-tab="billing" onclick="window.lekhaApp.switchSubTab('billing')">
-      <span class="icon">⚡</span>
-      <span>बिलिंग</span>
-    </button>
-    <button class="nav-item" data-tab="shelf" onclick="window.lekhaApp.switchSubTab('shelf')">
-      <span class="icon">📦</span>
-      <span>3D शेल्फ</span>
-    </button>
-    <button class="nav-item" data-tab="reorder" onclick="window.lekhaApp.switchSubTab('reorder')">
-      <span class="icon">📋</span>
-      <span>रीऑर्डर</span>
-    </button>
-    <button class="nav-item" data-tab="swap" onclick="window.lekhaApp.switchSubTab('swap')">
-      <span class="icon">🔄</span>
-      <span>एक्सचेंज</span>
-    </button>
-    <button class="nav-item" data-tab="bills" onclick="window.lekhaApp.switchSubTab('bills')">
-      <span class="icon">📜</span>
-      <span>आज के बिल</span>
-    </button>
-  </nav>
-
-  <!-- App Core Scripts -->
-  <script src="./qr-engine.js?v=2"></script>
+  <!-- Core Scripts -->
+  <script src="./qr-engine.js?v=3"></script>
   <script src="./product-assets.js"></script>
-  <script src="./shelf3d.js?v=2"></script>
-  <script src="./app.js?v=2"></script>
+  <script src="./shelf3d.js?v=3"></script>
+  <script src="./app.js?v=3"></script>
 
-  <!-- Offline Service Worker Registration -->
+  <!-- PWA Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {
-          console.log('SW registration skipped in sandbox');
+          console.log('SW registration ready');
         });
       });
     }

@@ -1,0 +1,8 @@
+[
+  { "id": "c_1", "name": "रमेश शर्मा (Ramesh Ji)", "phone": "9810123456", "balance": 450, "creditLimit": 2000, "lastVisit": "आज" },
+  { "id": "c_2", "name": "सुमन दीदी (Suman Devi)", "phone": "9871654321", "balance": 1200, "creditLimit": 3000, "lastVisit": "कल" },
+  { "id": "c_3", "name": "अनीता वर्मा (Anita Verma)", "phone": "9910987654", "balance": 850, "creditLimit": 1500, "lastVisit": "3 दिन पहले" },
+  { "id": "c_4", "name": "राजेश भाई (Rajesh Bhai)", "phone": "9818112233", "balance": 0, "creditLimit": 2500, "lastVisit": "आज" },
+  { "id": "c_5", "name": "विकास यादव (Vikas Yadav)", "phone": "9711445566", "balance": 1400, "creditLimit": 2000, "lastVisit": "5 दिन पहले" },
+  { "id": "c_6", "name": "सुरेश मीणा (Suresh Meena)", "phone": "9899332211", "balance": 2500, "creditLimit": 3000, "lastVisit": "1 हफ्ता पहले" }
+]

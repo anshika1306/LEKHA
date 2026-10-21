@@ -232,7 +232,31 @@ try {
                     continue
                 }
 
-                # 7. Reset Data API
+                # 7. Khata & Ledger API
+                $khataFile = Join-Path $dataDir "khata.json"
+                if ($path -eq "/api/khata") {
+                    if ($method -eq "GET") {
+                        if (Test-Path $khataFile) {
+                            $content = [System.IO.File]::ReadAllText($khataFile, [System.Text.Encoding]::UTF8)
+                            $data = $content | ConvertFrom-Json
+                            Send-JsonResponse $response $data
+                        } else {
+                            Send-JsonResponse $response @()
+                        }
+                    } elseif ($method -eq "POST") {
+                        $newKhata = Read-RequestBody $request
+                        if ($newKhata) {
+                            $json = $newKhata | ConvertTo-Json -Depth 10
+                            [System.IO.File]::WriteAllText($khataFile, $json, [System.Text.Encoding]::UTF8)
+                            Send-JsonResponse $response @{ success = $true; message = "Khata updated" }
+                        } else {
+                            Send-JsonResponse $response @{ error = "Invalid khata body" } 400
+                        }
+                    }
+                    continue
+                }
+
+                # 8. Reset Data API
                 if ($path -eq "/api/reset" -and $method -eq "POST") {
                     Send-JsonResponse $response @{ success = $true; message = "Reset done" }
                     continue

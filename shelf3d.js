@@ -96,15 +96,15 @@ class StoreShelf3D {
     // Clear background
     ctx.clearRect(0, 0, w, h);
 
-    // Modern isometric backdrop gradient
+    // Modern light isometric backdrop gradient
     const bgGradient = ctx.createLinearGradient(0, 0, w, h);
-    bgGradient.addColorStop(0, '#0f172a');
-    bgGradient.addColorStop(1, '#1e293b');
+    bgGradient.addColorStop(0, '#ffffff');
+    bgGradient.addColorStop(1, '#f1f5f9');
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, w, h);
 
     // Grid Floor
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.strokeStyle = 'rgba(226, 232, 240, 0.8)';
     ctx.lineWidth = 1;
     for (let x = 0; x < w; x += 30) {
       ctx.beginPath();
@@ -121,7 +121,7 @@ class StoreShelf3D {
 
     // Header info
     ctx.font = 'bold 12px "Poppins", sans-serif';
-    ctx.fillStyle = '#94a3b8';
+    ctx.fillStyle = '#1e293b';
     ctx.fillText('3D दुकान शेल्फ व्यू (3D Store Rack Model)', 20, 25);
     ctx.font = '10px "Poppins", sans-serif';
     ctx.fillStyle = '#64748b';
@@ -156,9 +156,8 @@ class StoreShelf3D {
     ctx.ellipse(w / 2, shelfY + shelfHeight + 12, shelfWidth / 2, 8, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Shelf Wooden Planks / Metal Shelf Surface
-    // Top Plate
-    ctx.fillStyle = isSelected ? '#3b82f6' : '#334155';
+    // Shelf Surface Plate
+    ctx.fillStyle = isSelected ? '#3b82f6' : '#e2e8f0';
     ctx.beginPath();
     ctx.moveTo(startX, shelfY);
     ctx.lineTo(startX + shelfWidth, shelfY);
@@ -168,11 +167,11 @@ class StoreShelf3D {
     ctx.fill();
 
     // Shelf Front Edge
-    ctx.fillStyle = isSelected ? '#2563eb' : '#1e293b';
+    ctx.fillStyle = isSelected ? '#2563eb' : '#cbd5e1';
     ctx.fillRect(startX, shelfY, shelfWidth, shelfHeight);
 
     // Shelf Label & Category Tag
-    ctx.fillStyle = isSelected ? '#ffffff' : '#cbd5e1';
+    ctx.fillStyle = isSelected ? '#ffffff' : '#1e293b';
     ctx.font = 'bold 11px "Poppins", sans-serif';
     ctx.fillText(rack.name, startX + 10, shelfY + 11);
 
